@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="333px" height="266px" viewBox="0 0 333 266" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>shape</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="shape">
+            <circle id="Oval" fill="#FF4F4F" cx="133" cy="133" r="133"></circle>
+            <circle id="Oval-Copy" fill="#FF9F00" cx="252" cy="81" r="81"></circle>
+            <text id="$" font-family="AmericanTypewriter-Bold, American Typewriter" font-size="36" font-weight="bold" letter-spacing="0.0234" fill="#FFFFFF">
+                <tspan x="240.1983" y="93">$</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

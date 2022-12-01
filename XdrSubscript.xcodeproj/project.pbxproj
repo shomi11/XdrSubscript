@@ -38,6 +38,9 @@
 		C05B216D292E45650086C8FA /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B216C292E45650086C8FA /* SpinnerView.swift */; };
 		C05B216F292E565D0086C8FA /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B216E292E565D0086C8FA /* EmptyView.swift */; };
 		C05B2171292E611C0086C8FA /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B2170292E611C0086C8FA /* SuccessView.swift */; };
+		C0F0A77329389E35001B4737 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F0A77229389E35001B4737 /* StoreKit.framework */; };
+		C0F0A7762938A274001B4737 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = C0F0A7752938A274001B4737 /* RevenueCat */; };
+		C0F0A7782938A5DE001B4737 /* PayWallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F0A7772938A5DE001B4737 /* PayWallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +71,8 @@
 		C05B216C292E45650086C8FA /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		C05B216E292E565D0086C8FA /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		C05B2170292E611C0086C8FA /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
+		C0F0A77229389E35001B4737 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C0F0A7772938A5DE001B4737 /* PayWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayWallView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +83,9 @@
 				C02385F42927FC32007F9A79 /* FirebaseDatabase in Frameworks */,
 				C02385F22927FC32007F9A79 /* FirebaseAuth in Frameworks */,
 				C0238607292A58F9007F9A79 /* GoogleSignInSwift in Frameworks */,
+				C0F0A77329389E35001B4737 /* StoreKit.framework in Frameworks */,
 				C02385F62927FC32007F9A79 /* FirebaseFirestore in Frameworks */,
+				C0F0A7762938A274001B4737 /* RevenueCat in Frameworks */,
 				C02385FA2927FC32007F9A79 /* FirebaseStorage in Frameworks */,
 				C02385F82927FC32007F9A79 /* FirebaseFirestoreSwift in Frameworks */,
 				C0238605292A58F9007F9A79 /* GoogleSignIn in Frameworks */,
@@ -93,6 +100,7 @@
 			children = (
 				C02385C92927BB76007F9A79 /* XdrSubscript */,
 				C02385C82927BB76007F9A79 /* Products */,
+				C0F0A77129389E35001B4737 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,6 +165,7 @@
 				C05B216C292E45650086C8FA /* SpinnerView.swift */,
 				C05B216E292E565D0086C8FA /* EmptyView.swift */,
 				C05B2170292E611C0086C8FA /* SuccessView.swift */,
+				C0F0A7772938A5DE001B4737 /* PayWallView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -167,6 +176,14 @@
 				C02385FF292841B7007F9A79 /* ColorExt.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C0F0A77129389E35001B4737 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0F0A77229389E35001B4737 /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +210,7 @@
 				C02385F92927FC32007F9A79 /* FirebaseStorage */,
 				C0238604292A58F9007F9A79 /* GoogleSignIn */,
 				C0238606292A58F9007F9A79 /* GoogleSignInSwift */,
+				C0F0A7752938A274001B4737 /* RevenueCat */,
 			);
 			productName = XdrSubscript;
 			productReference = C02385C72927BB76007F9A79 /* XdrSubscript.app */;
@@ -225,6 +243,7 @@
 			packageReferences = (
 				C02385F02927FC32007F9A79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C0238603292A58F9007F9A79 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				C0F0A7742938A274001B4737 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = C02385C82927BB76007F9A79 /* Products */;
 			projectDirPath = "";
@@ -274,6 +293,7 @@
 				C02385E02927BE81007F9A79 /* User.swift in Sources */,
 				C02385DB2927BE42007F9A79 /* MainTabView.swift in Sources */,
 				C0238600292841B7007F9A79 /* ColorExt.swift in Sources */,
+				C0F0A7782938A5DE001B4737 /* PayWallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +516,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		C0F0A7742938A274001B4737 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -533,6 +561,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C0238603292A58F9007F9A79 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		C0F0A7752938A274001B4737 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0F0A7742938A274001B4737 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
