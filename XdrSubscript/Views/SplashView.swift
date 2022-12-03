@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestoreSwift
 import Firebase
+import RevenueCat
 
 struct SplashView: View {
     
@@ -45,14 +46,6 @@ struct SplashView: View {
         }
         .fullScreenCover(isPresented: $showAuthView) {
             AuthView()
-        }
-    }
-    
-    private func createUserForDB(user: User) {
-        do {
-            let _ = try db.collection("Users").addDocument(from: user)
-        } catch {
-            print("error adding user to database \(error.localizedDescription)")
         }
     }
     

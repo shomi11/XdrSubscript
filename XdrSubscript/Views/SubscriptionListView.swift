@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestoreSwift
 import FirebaseAuth
 import Firebase
+import RevenueCat
 
 struct SubscriptionListView: View {
     
@@ -16,6 +17,7 @@ struct SubscriptionListView: View {
     @State private var showNewSubscriptionView: Bool = false
     @State var user: User
     @State private var showLoader = false
+    @State private var showPayWall: Bool = false
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
@@ -51,7 +53,7 @@ struct SubscriptionListView: View {
                     } else {
                         List {
                             Section {
-                                ForEach(filteredSubscriptions, id: \.uuid) { sub in
+                                ForEach(user.isSubscriptionStatusActive ? filteredSubscriptions : Array(filteredSubscriptions.prefix(3)), id: \.uuid) { sub in
                                     NavigationLink {
                                         SubscriptionDetailsView(subcription: sub, user: user)
                                     } label: {
@@ -73,7 +75,11 @@ struct SubscriptionListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        showNewSubscriptionView = true
+                        if appState.subscriptions.count < 3 || user.isSubscriptionStatusActive {
+                            showNewSubscriptionView = true
+                        } else {
+                            showPayWall = true
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -111,8 +117,16 @@ struct SubscriptionListView: View {
                     addedNewSubscription: $addedNewSubscription
                 )
             })
+            .fullScreenCover(isPresented: $showPayWall, onDismiss: {
+                
+            }, content: {
+                PayWallView(user: user)
+            })
             .onAppear {
                 getSubscriptions()
+                Purchases.shared.logIn(user.userID) { customerInfo, bool, error in
+                    guard error == nil else { return }
+                }
             }
         }
     }

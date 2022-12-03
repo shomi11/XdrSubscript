@@ -6,10 +6,19 @@
 //
 
 import SwiftUI
+import RevenueCat
 
 struct PayWallView: View {
     
     @Environment(\.dismiss) private var dismiss
+    @State private var monthlyPrice: String = ""
+    @State private var showAlert: Bool = false
+    @State private var errorMessage: String = ""
+    @State private var monthlyPk: Package?
+    @State private var isPurchaisng: Bool = false
+    @State private var showSuccessView: Bool = false
+    @State var user: User
+    
     
     var body: some View {
         NavigationStack {
@@ -82,10 +91,10 @@ struct PayWallView: View {
                     }
                     VStack(alignment: .center, spacing: 8) {
                         Button {
-                            
+                            buyMonthlyPackage()
                         } label: {
                             VStack(alignment: .center, spacing: 6) {
-                                Text("$1.99 / month")
+                                Text(monthlyPrice)
                                     .fontWeight(.medium)
                                     .fontDesign(.rounded)
                                 Text("Go Premium")
@@ -104,7 +113,26 @@ struct PayWallView: View {
                 .padding(.trailing, 16)
                 .background(.thinMaterial)
                 .padding(.horizontal)
+                if isPurchaisng {
+                    SpinnerView()
+                }
+                if showSuccessView {
+                    SuccessView(
+                        title: "Purchase Completed",
+                        message: "Enjoy full access.",
+                        showSelf: $showSuccessView)
+                }
             }
+            .onChange(of: showSuccessView, perform: { newValue in
+                if newValue == false {
+                    dismiss()
+                }
+            })
+            .alert("Sorry something went wrong", isPresented: $showAlert, actions: {
+                Button.init("OK") { dismiss() }
+            }, message: {
+                Text(errorMessage)
+            })
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Premium".uppercased())
@@ -120,13 +148,49 @@ struct PayWallView: View {
                     }
                 }
             }
+            .onAppear {
+                getOffers()
+            }
         }
-        
+        .blur(radius: isPurchaisng ? 5 : 0)
+    }
+    
+    private func buyMonthlyPackage() {
+        isPurchaisng = true
+        if let pk = monthlyPk {
+            Purchases.shared.purchase(package: pk) { transaction, customerInfo, error, userCancelled in
+                isPurchaisng = false
+                guard error == nil else {
+                    errorMessage = error!.localizedDescription
+                    showAlert = true
+                    return
+                }
+                if customerInfo?.entitlements.all["Premium"]?.isActive == true {
+                    user.isSubscriptionStatusActive = true
+                    showSuccessView = true
+                }
+            }
+        }
+    }
+    
+    private func getOffers() {
+        Purchases.shared.getOfferings { offerings, error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+                showAlert = true
+            } else {
+                if let monthlyOffer = offerings?.current?.monthly {
+                    monthlyPk = monthlyOffer
+                    let price = monthlyOffer.localizedPriceString
+                    monthlyPrice = price + " /monthly"
+                }
+            }
+        }
     }
 }
 
 struct PayWallView_Previews: PreviewProvider {
     static var previews: some View {
-        PayWallView()
+        PayWallView(user: User.example)
     }
 }

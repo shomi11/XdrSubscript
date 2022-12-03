@@ -7,8 +7,34 @@
 
 import Foundation
 import FirebaseFirestoreSwift
+import RevenueCat
 
-struct User: Codable, Equatable, Hashable, Identifiable {
+class User: Codable, Equatable, Hashable, Identifiable {
+    
+    
+    init(id: String?, userID: String, name: String, email: String, isSubscriptionStatusActive: Bool = false) {
+        self.id = id
+        self.userID = userID
+        self.name = name
+        self.email = email
+        self.isSubscriptionStatusActive = isSubscriptionStatusActive
+        
+        setSubscriptionStatus()
+    }
+      
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.userID == rhs.userID
+    }
+   
+  
+    
+     func setSubscriptionStatus() {
+        Purchases.shared.getCustomerInfo { info, error in
+            guard error == nil else { return }
+            self.isSubscriptionStatusActive = info?.entitlements["Premium"]?.isActive == true
+        }
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(email)
@@ -18,6 +44,7 @@ struct User: Codable, Equatable, Hashable, Identifiable {
     var userID: String
     var name: String
     var email: String
+    var isSubscriptionStatusActive: Bool = false
     
     enum CodingKeys: String, CodingKey {
         case userID
@@ -26,6 +53,6 @@ struct User: Codable, Equatable, Hashable, Identifiable {
     }
     
     static var example: User {
-        return User(id: "", userID: "", name: "Milos", email: "ma@gmail.com")
+        return User(id: "123", userID: "", name: "Milos", email: "ma@gmail.com")
     }
 }
