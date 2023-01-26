@@ -6,22 +6,19 @@
 //
 
 import SwiftUI
-import FirebaseFirestoreSwift
-import Firebase
 
 struct SubscriptionDetailsView: View {
-  
-    
+        
+    @EnvironmentObject private var appState: AppState
+    @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
-    @State var subcription: Subscription
-    @State var user: User
     @State private var showAlert = false
     @State private var showErrorAlert = false
     @State private var showSuccessDeletedView = false
     @State private var showLoader = false
     @State private var errorMessage: String = ""
+    @State var subcription: Subscription
     
-    private let db = Firestore.firestore()
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     
     var formater: NumberFormatter {
@@ -35,7 +32,7 @@ struct SubscriptionDetailsView: View {
     
     var body: some View {
         ZStack {
-        Form {
+            Form {
                 Section {
                     TextField("Subscription Name", text: $subcription.name)
                 } header: {
@@ -47,14 +44,16 @@ struct SubscriptionDetailsView: View {
                 } header: {
                     Text("Subscription Price \(selectedCurrency)")
                 }
-                Section {
-                    DatePicker("Start Date", selection: $subcription.startDate, displayedComponents: [.date])
-                } header: {
-                    Text("Subscription dates")
+                if !subcription.isFault {
+                    Section {
+                        DatePicker("Start Date", selection: $subcription.startDate, displayedComponents: [.date])
+                    } header: {
+                        Text("Subscription dates")
+                    }
                 }
                 Section {
                     Button {
-                       showAlert = true
+                        showAlert = true
                     } label: {
                         Label("Delete", systemImage: "trash")
                             .foregroundColor(.red)
@@ -86,9 +85,8 @@ struct SubscriptionDetailsView: View {
             }
         })
         .alert("Delete \(subcription.name) ?", isPresented: $showAlert, actions: {
-            Button("OK") {
-                deleteSubscription()
-            }
+            Button("OK") { deleteSubscription() }
+            Button("Cancel", role: .cancel, action: {})
         })
         .alert(Text(errorMessage), isPresented: $showErrorAlert, actions: {
             Button("OK", action: {})
@@ -97,40 +95,42 @@ struct SubscriptionDetailsView: View {
     }
     
     private func deleteSubscription() {
-        showLoader = true
-        db.collection("Users").document(user.userID).collection("subscriptions").document(subcription.id ?? "").delete { error in
-            showLoader = false
-            if let error = error {
-                errorMessage = error.localizedDescription
-                showErrorAlert = true
-            } else {
-                showSuccessDeletedView = true
+        let object = moc.object(with: subcription.objectID)
+        moc.delete(object)
+        
+        appState.objectWillChange.send()
+        if let index = appState.subscriptions.firstIndex(where: {$0.id == subcription.id}) {
+            appState.subscriptions.remove(at: index)
+        }
+        
+        DispatchQueue.main.async {
+            do {
+                try moc.save()
+                dismiss()
+            }
+            catch {
+                print("==== cant delete object")
             }
         }
     }
     
     private func updateSubcription() {
-        
-        guard subcription.name.isEmpty else {
-            errorMessage = "Name can't be empty"
-            showAlert = true
-            return
-        }
-        
-        showLoader = true
         do {
-            try db.collection("Users").document(user.userID).collection("subscriptions").document(subcription.id ?? "").setData(from: subcription, merge: true) { error in
-                showLoader = false
-                if let error = error {
-                    errorMessage = error.localizedDescription
-                    showAlert = true
+            appState.subscriptions.forEach { sub in
+                if sub.id == subcription.id {
+                    sub.name = subcription.name
+                    sub.startDate = subcription.startDate
+                    sub.price = subcription.price
+                    sub.type = subcription.type
+                    sub.notificationOn = subcription.notificationOn
+                    appState.objectWillChange.send()
                 }
             }
+            try moc.save()
+            dismiss()
         }
         catch {
-            showLoader = false
-            errorMessage = error.localizedDescription
-            showAlert = true
+            print("error update sub \(error)")
         }
     }
 }
@@ -138,7 +138,8 @@ struct SubscriptionDetailsView: View {
 struct SubscriptionDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            SubscriptionDetailsView(subcription: Subscription.subs.first!, user: User.example)
+            SubscriptionDetailsView(subcription: DataController.subs.first!)
+                .environmentObject(DataController())
         }
     }
 }

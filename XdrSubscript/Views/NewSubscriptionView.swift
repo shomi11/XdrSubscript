@@ -6,22 +6,16 @@
 //
 
 import SwiftUI
-import FirebaseAuth
-import FirebaseFirestoreSwift
-import Firebase
 import UserNotifications
 
 struct NewSubscriptionView: View {
     
+    @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
     @State private var newSubsriptionProviderName: String = ""
     @State private var startDate: Date = Date()
     @State private var price: Double = 0.00
-    @State private var subscriptionModel: SubscriptionModel = .monthly
-    @State private var db = Firestore.firestore()
-    @State var user: User
-    @State private var showAlert = false
-    @State private var errorMessage: String = ""
+    @State private var subscriptionModel: SubscriptionType = .monthly
     @State private var showSuccessView = false
     @Binding var addedNewSubscription: Bool
     @State private var setNotification: Bool = false
@@ -45,33 +39,31 @@ struct NewSubscriptionView: View {
                     } header: {
                         Text("Subscription Provider")
                     }
-                    
                     Section {
                         TextField("$0.00", value: $price, formatter: formater)
+                            .keyboardType(.decimalPad)
                     } header: {
                         Text("$ Subscription Price")
-                            .keyboardType(.numberPad)
                     }
-                    
                     Section {
                         Picker("Subscription Model", selection: $subscriptionModel) {
-                            ForEach(SubscriptionModel.allCases, id: \.self) { model in
+                            ForEach(SubscriptionType.allCases, id: \.self) { model in
                                 Text(model.text)
                             }
                         }
                         .pickerStyle(.segmented)
                     }
-                    
                     Section {
                         DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
                     }
-                    
                     Section {
-                        Toggle("Notification", isOn: $setNotification)
+                        VStack {
+                            Toggle("Notification", isOn: $setNotification)
+                        }
                     } footer: {
                         Text("Notification reminder on the day of subscription should be billed")
                     }
-                        
+                    
                 }
                 if showSuccessView {
                     SuccessView(title: "\(newSubsriptionProviderName) added to your subsription's.", message: "", showSelf: $showSuccessView)
@@ -102,9 +94,6 @@ struct NewSubscriptionView: View {
                     dismiss()
                 }
             })
-            .alert(errorMessage, isPresented: $showAlert) {
-                Button.init("OK", role: .cancel, action: {})
-            }
         }
     }
     
@@ -116,54 +105,66 @@ struct NewSubscriptionView: View {
         }
     }
     
-    
     private func addSubscription() {
-        
-        let subscription = Subscription(uuid: UUID().uuidString, name: newSubsriptionProviderName, startDate: startDate, price: price, model: subscriptionModel)
-        
-        do {
-            let _ = try db.collection("Users").document(user.userID).collection("subscriptions").addDocument(from: subscription, completion: { error in
-                if let error = error {
-                    errorMessage = error.localizedDescription
-                    showAlert = true
-                } else {
-                    if setNotification {
-                        let content = UNMutableNotificationContent()
-                        content.title = "\(newSubsriptionProviderName)"
-                        content.body = "\(price.formatted(.currency(code: selectedCurrency)))"
-                    
-                        var dateComponents = DateComponents()
-                        dateComponents = Calendar.current.dateComponents([.weekOfMonth, .weekday, .day], from: startDate)
-                        dateComponents.hour = 10
-                           
-                        let trigger = UNCalendarNotificationTrigger(
-                                 dateMatching: dateComponents, repeats: true)
-                        
-                        let request = UNNotificationRequest(identifier: newSubsriptionProviderName,
-                                    content: content, trigger: trigger)
-
-                        let notificationCenter = UNUserNotificationCenter.current()
-                        notificationCenter.add(request) { (error) in
-                           if error != nil {
-                              // Handle any errors.
-                           } else {
-                               print("notification scheduled succes")
-                           }
-                        }
-                    }
-                   showSuccessView = true
-                }
-            })
+        guard newSubsriptionProviderName.isEmpty == false else { return }
+        let newSub = Subscription.init(context: moc)
+        newSub.id = UUID()
+        newSub.price = price
+        newSub.name = newSubsriptionProviderName
+        newSub.notificationOn = setNotification
+        newSub.startDate = startDate
+        newSub.dateCreated = Date()
+        if subscriptionModel == .yearly {
+            newSub.type = 0
+        } else {
+            newSub.type = 1
         }
-        catch {
-            errorMessage = error.localizedDescription
-            showAlert = true
+        do {
+            try moc.save()
+            if setNotification {
+               
+                let content = UNMutableNotificationContent()
+                content.title = newSubsriptionProviderName
+                content.subtitle = "\(selectedCurrency) \(price)"
+                content.sound = UNNotificationSound.default
+                
+                var components = Calendar.current.dateComponents([.weekday, .day], from: startDate)
+                components.hour = 10
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+
+                let request = UNNotificationRequest(identifier: newSub.id.uuidString, content: content, trigger: trigger)
+
+                UNUserNotificationCenter.current().add(request)
+            }
+            showSuccessView = true
+        } catch {
+            print(error)
         }
     }
 }
 
 struct NewSubscriptionView_Previews: PreviewProvider {
     static var previews: some View {
-        NewSubscriptionView(user: User.example, addedNewSubscription: .constant(false))
+        NewSubscriptionView(addedNewSubscription: .constant(false))
+            .environmentObject(DataController())
     }
+}
+
+
+extension Date {
+    
+    var weekday: Int {
+        return Calendar.current.component(.weekday, from: self)
+    }
+    
+    var day: Int {
+        return Calendar.current.component(.day, from: self)
+    }
+    
+    var hour: Int {
+        return Calendar.current.component(.hour, from: self)
+    }
+    
+    
 }

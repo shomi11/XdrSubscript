@@ -6,18 +6,18 @@
 //
 
 import SwiftUI
-import FirebaseAuth
-import FirebaseFirestoreSwift
-import Firebase
-import RevenueCat
+import CoreData
+import UserNotifications
 
 struct SplashView: View {
     
+    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var appState: AppState
     @State private var showMain: Bool = false
-    @State private var showAuthView: Bool = false
-    @State var user: User? = nil
-    private var db = Firestore.firestore()
+    @State private var hasTimeElapsed = false
     
+    let timer = Timer()
+        
     var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 16) {
@@ -32,72 +32,27 @@ struct SplashView: View {
         }
         .ignoresSafeArea(.all)
         .onAppear {
-            rootNextView()
-        }
-        .onChange(of: user, perform: { newValue in
-            if newValue != nil {
-                fetchUser(user: newValue!)
+            let fetch = Subscription.fetchRequest()
+            fetch.sortDescriptors = []
+            let results = (try? moc.fetch(fetch) as [Subscription]) ?? []
+            appState.subscriptions = results
+            Task {
+                await delayText()
             }
-        })
+        }
         .fullScreenCover(isPresented: $showMain) {
-            if let user = user {
-                MainTabView(user: user)
-            }
+            MainTabView()
         }
-        .fullScreenCover(isPresented: $showAuthView) {
-            AuthView()
-        }
-    }
-    
-    func fetchUser(user: User) {
-        db.collection("Users").getDocuments { snap, error in
-            if let documents = snap?.documents, documents.isEmpty == false {
-                documents.forEach({ doc in
-                    if doc.documentID == user.userID {
-                        showMain = true
-                    } else {
-                        do {
-                            try db.collection("Users").document(user.userID).setData(from: user) { error in
-                                if let error = error {
-                                    print("error adding user \(error.localizedDescription)")
-                                } else {
-                                    showMain = true
-                                }
-                            }
-                        } catch {
-                            print("failed \(error.localizedDescription)")
-                        }
-                    }
-                })
-            } else {
-                do {
-                    try db.collection("Users").document(user.userID).setData(from: user) { error in
-                        if let error = error {
-                            print("error adding user \(error.localizedDescription)")
-                        } else {
-                            showMain = true
-                        }
-                    }
-                } catch {
-                    print("failed \(error.localizedDescription)")
-                }
+        .onChange(of: hasTimeElapsed) { newValue in
+            if newValue {
+                showMain = true
             }
         }
     }
     
-    private func rootNextView()  {
-        Auth.auth().addStateDidChangeListener { auth, user in
-            if let user = user {
-                self.user = User(
-                    id: user.uid,
-                    userID: user.uid,
-                    name: user.displayName ?? "",
-                    email: user.email ?? ""
-                )
-            } else {
-                showAuthView = true
-            }
-        }
+    private func delayText() async {
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        hasTimeElapsed = true
     }
 }
 

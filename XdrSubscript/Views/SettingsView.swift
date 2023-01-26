@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import FirebaseAuth
+
 
 struct SettingsView: View {
     
@@ -14,16 +14,13 @@ struct SettingsView: View {
     @State private var currencyModel = CurrencyModel()
     @State private var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     @State private var notificationEnabled = UserDefaults.standard.bool(forKey: "notificationEnabled")
+    
     var body: some View {
         NavigationStack {
             Form {
-                authSection
                 currencySettings
             }
             .navigationTitle("Settings")
-        }
-        .onAppear {
-            print(selectedCurrency)
         }
     }
     
@@ -37,31 +34,8 @@ struct SettingsView: View {
             .onChange(of: selectedCurrency) { newValue in
                 UserDefaults.standard.set(newValue, forKey: "selectedCurrency")
             }
-        }
-    }
-    
-    private var authSection: some View {
-        Section {
-            Button {
-                do {
-                    try Auth.auth().signOut()
-                    dismiss()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            } label: {
-                Text("Sign Out")
-                    .foregroundColor(.blue)
-            }
-            .buttonStyle(.plain)
-           
-            Button {
-                
-            } label: {
-                Text("Delete Account")
-                    .foregroundColor(.red)
-            }
-            .buttonStyle(.plain)
+        } header: {
+            Text("Currency")
         }
     }
 }

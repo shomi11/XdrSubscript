@@ -10,13 +10,11 @@ import UserNotifications
 
 struct MainTabView: View {
     
-    @State var user: User
-    @StateObject private var appState = AppState()
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         TabView {
-            SubscriptionListView(user: user)
-                .environmentObject(appState)
+            SubscriptionListView()
                 .tabItem {
                     Label("Subscriptions", systemImage: "list.dash")
                 }
@@ -30,7 +28,7 @@ struct MainTabView: View {
                     Label("Settings", systemImage: "gear")
                 }
         }
-        .navigationTitle("Hello \(user.name)")
+        .navigationTitle("Hello")
         .onAppear {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                 if success {
@@ -42,10 +40,3 @@ struct MainTabView: View {
         }
     }
 }
-//
-//struct MainTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainTabView(user: User.example)
-//            .environmentObject(AppState())
-//    }
-//}

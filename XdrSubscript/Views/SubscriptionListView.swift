@@ -6,20 +6,17 @@
 //
 
 import SwiftUI
-import FirebaseFirestoreSwift
-import FirebaseAuth
-import Firebase
-import RevenueCat
+import CoreData
 
 struct SubscriptionListView: View {
     
+    @Environment(\.managedObjectContext) var moc
     @EnvironmentObject private var appState: AppState
     @State private var showNewSubscriptionView: Bool = false
-    @State var user: User
     @State private var showLoader = false
-    @State private var showPayWall: Bool = false
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
+    
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     @State var orderedBy = UserDefaults.standard.value(forKey: "sorted") as? SortedBy.RawValue ?? SortedBy.newest.rawValue
     
@@ -52,10 +49,17 @@ struct SubscriptionListView: View {
                         EmptyView()
                     } else {
                         List {
+                            
+                            if let _ = appState.nextSub() {
+                                nextSubcriptionView
+                            }
+                            
                             Section {
-                                ForEach(user.isSubscriptionStatusActive ? filteredSubscriptions : Array(filteredSubscriptions.prefix(3)), id: \.uuid) { sub in
+                                ForEach(filteredSubscriptions, id: \.id) { sub in
                                     NavigationLink {
-                                        SubscriptionDetailsView(subcription: sub, user: user)
+                                        SubscriptionDetailsView(
+                                            subcription: sub
+                                        )
                                     } label: {
                                         cellForSub(sub: sub)
                                     }
@@ -75,11 +79,7 @@ struct SubscriptionListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        if appState.subscriptions.count < 3 || user.isSubscriptionStatusActive {
-                            showNewSubscriptionView = true
-                        } else {
-                            showPayWall = true
-                        }
+                        showNewSubscriptionView = true
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -113,40 +113,70 @@ struct SubscriptionListView: View {
                 }
             }, content: {
                 NewSubscriptionView(
-                    user: user,
                     addedNewSubscription: $addedNewSubscription
                 )
             })
-            .fullScreenCover(isPresented: $showPayWall, onDismiss: {
-                
-            }, content: {
-                PayWallView(user: user)
-            })
-            .onAppear {
-                getSubscriptions()
-                Purchases.shared.logIn(user.userID) { customerInfo, bool, error in
-                    guard error == nil else { return }
-                }
-            }
         }
     }
     
     private func getSubscriptions() {
-        showLoader = true
-        let db = Firestore.firestore()
-        let _ = db.collection("Users").document(user.userID).collection("subscriptions").getDocuments(completion: { snapShot, error in
-            showLoader = false
-            guard let docs = snapShot?.documents else { return }
-            appState.subscriptions = docs.compactMap { snap -> Subscription? in
-                do {
-                    return try snap.data(as: Subscription.self)
-                }
-                catch {
-                    print(error)
-                    return nil
+        let fetch = Subscription.fetchRequest()
+        fetch.sortDescriptors = []
+        let results = (try? moc.fetch(fetch) as [Subscription]) ?? []
+        appState.subscriptions = results
+    }
+    
+    private func deleteSubscription(subcription: Subscription) {
+        let object = moc.object(with: subcription.objectID)
+        moc.delete(object)
+        do {
+            try moc.save()
+        }
+        catch {
+            print("==== cant delete object")
+        }
+    }
+    
+    @ViewBuilder
+    private var nextSubcriptionView: some View {
+        Section {
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(alignment: .center, spacing: 8) {
+                    ForEach(appState.nextSub() ?? [], id: \.id) { sub in
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(alignment: .center) {
+                                Text(sub.name)
+                                    .font(.body14)
+                                Spacer()
+                                Text(sub.price.formatted(.currency(code: selectedCurrency)))
+                                    .font(.body14)
+                                    .fontWeight(.medium)
+                            }
+                            Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
+                                .font(.body14)
+                                .foregroundColor(.secondary)
+                                .fontWeight(.light)
+                            HStack(alignment: .center) {
+                                Text(sub.notificationOn ? "Nofication on" : "Nofication off")
+                                    .foregroundColor(.secondary)
+                                    .fontWeight(.light)
+                                    .font(.body15)
+                                Image(systemName: "bell")
+                                    .font(.body15)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(sub.notificationOn ? .blue : .secondary)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(12)
+                    }
                 }
             }
-        })
+        } header: {
+            Text("On the way next:")
+        }
+        .listRowBackground(Color.secondaryBackgroundColor)
     }
     
     func cellForSub(sub: Subscription) -> some View {
@@ -155,24 +185,29 @@ struct SubscriptionListView: View {
                 HStack(alignment: .bottom) {
                     Text("Subscribed to:")
                         .foregroundColor(.secondary)
+                        .font(.body15)
                     Spacer()
                     Text(sub.name)
                         .fontWeight(.medium)
+                        .font(.body15)
                 }
                 HStack(alignment: .bottom) {
                     Text("Start date:")
+                        .font(.body14)
                         .foregroundColor(.secondary)
                     Spacer()
                     Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
                         .fontWeight(.medium)
+                        .font(.body14)
                 }
                 HStack(alignment: .center, spacing: 4) {
-                    Spacer()
                     Text(sub.price.formatted(.currency(code: selectedCurrency)))
                         .fontWeight(.bold)
                         .foregroundColor(.red)
+                        .font(.body14)
                     Text(sub.model.text)
                         .foregroundColor(.secondary)
+                        .font(.body14)
                 }
             }
         }
@@ -184,9 +219,27 @@ struct SubscriptionListView: View {
 struct SubscriptionListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            SubscriptionListView(user: User.example)
+            SubscriptionListView()
                 .environmentObject(AppState())
+                .environmentObject(DataController())
         }
+    }
+}
+
+extension Date {
+
+    func fullDistance(from date: Date, resultIn component: Calendar.Component, calendar: Calendar = .current) -> Int? {
+        calendar.dateComponents([component], from: self, to: date).value(for: component)
+    }
+
+    func distance(from date: Date, only component: Calendar.Component, calendar: Calendar = .current) -> Int {
+        let days1 = calendar.component(component, from: self)
+        let days2 = calendar.component(component, from: date)
+        return days1 - days2
+    }
+
+    func hasSame(_ component: Calendar.Component, as date: Date) -> Bool {
+        distance(from: date, only: component) == 0
     }
 }
 

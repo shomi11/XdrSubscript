@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum SubscriptionModel: String, Codable, CaseIterable {
-    case yearly
-    case monthly
+enum SubscriptionType: Int, Codable, CaseIterable {
+    case yearly = 0
+    case monthly = 1
     
     var text: String {
         switch self {
