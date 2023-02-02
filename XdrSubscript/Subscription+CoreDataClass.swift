@@ -21,8 +21,7 @@ public class Subscription: NSManagedObject {
     var totalPaidTillNow: Double {
         let diffs = Calendar.current.dateComponents([.month], from: startDate, to: Date())
         guard let monthCount = diffs.month, monthCount > 0 else { return price }
-        let total = price * Double(monthCount)
-        print(total)
+        let total = montlyPrice * Double(monthCount)
         return total
     }
     
@@ -39,4 +38,13 @@ public class Subscription: NSManagedObject {
             return .yearly
         }
     }
+    
+    var montlyPrice: Double {
+        if model == .yearly {
+            return price / 12
+        } else {
+            return price
+        }
+    }
+    
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+import CloudKit
 
 extension Subscription {
 
@@ -23,9 +23,25 @@ extension Subscription {
     @NSManaged public var startDate: Date
     @NSManaged public var type: Int16
     @NSManaged public var dateCreated: Date
+    @NSManaged public var imageUrl: String
 
 }
 
 extension Subscription : Identifiable {
-
+    
+    func prepareCloudRecords() -> CKRecord {
+        let parentName = objectID.uriRepresentation().absoluteString
+        let parentID = CKRecord.ID(recordName: parentName)
+        let parent = CKRecord(recordType: "Subscription", recordID: parentID)
+        parent["id"] = id.uuidString
+        parent["name"] = name
+        parent["notifificationOn"] = notificationOn
+        parent["price"] = price
+        parent["startDate"] = startDate
+        parent["type"] = type
+        parent["dateCreated"] = dateCreated
+        parent["imageUrl"] = imageUrl
+        return parent
+    }
 }
+

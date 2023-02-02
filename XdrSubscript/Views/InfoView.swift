@@ -12,13 +12,14 @@ struct InfoView: View {
     
     @EnvironmentObject private var appState: AppState
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
         NavigationStack {
             Group {
                 if !appState.subscriptions.isEmpty {
-                    Form {
+                    List {
                         headerCardView
                         if let _ = appState.theMostExpensiveSubscription {
                             mostExpensiveView
@@ -28,16 +29,15 @@ struct InfoView: View {
                         totalPaidHistoryPerSubscriptionChartView
                         numberOfMontsSubscriedChartView
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 } else {
                     EmptyView()
                 }
             }
-            .background(content: {
-                if !appState.subscriptions.isEmpty {
-                    Color.secondaryBackgroundColor
-                        .ignoresSafeArea()
-                }
-            })
+            .background {
+                BackgroundView()
+            }
             .navigationTitle("Subscriptions Info")
         }
     }
@@ -48,9 +48,9 @@ struct InfoView: View {
                 HStack(alignment: .bottom) {
                     Text("Total subscription's price:")
                         .font(.body15)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.primary.opacity(0.7))
                     Spacer()
-                    Text(appState.totalSubscriptionsPrice.formatted(.currency(code: selectedCurrency)))
+                    Text(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: selectedCurrency)))
                         .font(.body15)
                         .fontWeight(.bold)
                         .foregroundColor(.red)
@@ -59,16 +59,26 @@ struct InfoView: View {
                 HStack(alignment: .bottom) {
                     Text("Total number of subscriptions's:")
                         .font(.body15)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.primary.opacity(0.7))
                     Spacer()
                     Text("\(appState.subscriptions.count)")
                         .font(.body15)
                         .fontWeight(.bold)
+                        .foregroundColor(.primary.opacity(0.7))
                 }
             }
+            .padding()
+            .background(Color.systemBackgroundColor.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         } header: {
             Text("Overview")
+                .font(.title3)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+                .bold()
         }
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
     }
     
     @ViewBuilder
@@ -83,10 +93,20 @@ struct InfoView: View {
                     Text(mostExpensiveSub.price.formatted(.currency(code: selectedCurrency)))
                         .font(.body15)
                         .fontWeight(.bold)
+                        .foregroundColor(.red)
                 }
+                .padding()
+                .background(Color.systemBackgroundColor.opacity(0.5))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             } header: {
-                Text("The most expensive")
+                Text("The most expensive(per month)")
+                    .font(.title3)
+                    .fontDesign(.rounded)
+                    .foregroundColor(.primary)
+                    .bold()
             }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
         }
     }
     
@@ -109,11 +129,11 @@ struct InfoView: View {
                             }
                             Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
                                 .font(.body14)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.primary.opacity(0.7))
                                 .fontWeight(.light)
                             HStack(alignment: .center) {
                                 Text(sub.notificationOn ? "Nofication on" : "Nofication off")
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(.primary.opacity(0.7))
                                     .fontWeight(.light)
                                     .font(.body15)
                                 Image(systemName: "bell")
@@ -123,15 +143,21 @@ struct InfoView: View {
                             }
                         }
                         .padding()
-                        .background(Color.white)
-                        .cornerRadius(12)
+                        .background(Color.systemBackgroundColor.opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
                 }
             }
+            .frame(maxWidth: .infinity)
         } header: {
             Text("Recents")
+                .font(.title3)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+                .bold()
         }
-        .listRowBackground(Color.secondaryBackgroundColor)
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
     }
     
     private var priceChartView: some View {
@@ -142,18 +168,28 @@ struct InfoView: View {
                     .font(.caption)
                     .padding(.leading)
                 Chart {
-                    ForEach(appState.subscriptions.sorted(by: {$0.price > $1.price})) { sub in
+                    ForEach(appState.subscriptions.sorted(by: {$0.montlyPrice > $1.montlyPrice})) { sub in
                         BarMark(
                             x: .value("Name", sub.name),
-                            y: .value("Total", sub.price.formatted(.currency(code: selectedCurrency)))
+                            y: .value("Total", sub.montlyPrice.formatted(.currency(code: selectedCurrency)))
                         )
+                        .foregroundStyle(.orange)
                     }
                 }
             }
+            .padding()
             .frame(height: 250)
+            .background(Color.systemBackgroundColor.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         } header: {
-            Text("By Price")
+            Text("By Price(monthly)")
+                .font(.title3)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+                .bold()
         }
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
     }
     
     private var totalPaidHistoryPerSubscriptionChartView: some View {
@@ -173,10 +209,19 @@ struct InfoView: View {
                     }
                 }
             }
+            .padding()
             .frame(height: 250)
+            .background(Color.systemBackgroundColor.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         } header: {
             Text("Total per subcription")
+                .font(.title3)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+                .bold()
         }
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
     }
     
     private var numberOfMontsSubscriedChartView: some View {
@@ -196,10 +241,19 @@ struct InfoView: View {
                     }
                 }
             }
+            .padding()
             .frame(height: 250)
+            .background(Color.systemBackgroundColor.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         } header: {
             Text("Number of months subcribed")
+                .font(.title3)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+                .bold()
         }
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
     }
 }
 

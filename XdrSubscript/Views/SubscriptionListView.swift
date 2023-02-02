@@ -7,15 +7,19 @@
 
 import SwiftUI
 import CoreData
+import CloudKit
 
 struct SubscriptionListView: View {
     
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var appState: AppState
     @State private var showNewSubscriptionView: Bool = false
-    @State private var showLoader = false
+    @State private var loadingState: LoadingState = .loading
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
+    @State private var showSpendingDetailsFullCard: Bool = false
+    @State private var subcriptions: [Subscription] = []
     
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     @State var orderedBy = UserDefaults.standard.value(forKey: "sorted") as? SortedBy.RawValue ?? SortedBy.newest.rawValue
@@ -45,15 +49,21 @@ struct SubscriptionListView: View {
         NavigationStack {
             Group {
                 ZStack {
-                    if !showLoader && appState.subscriptions.isEmpty {
-                        EmptyView()
-                    } else {
+                    switch loadingState {
+                    case .loading:
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.indigo)
+                    case .empty:
+                        EmptyListView(showNewSubscriptionView: $showNewSubscriptionView)
+                    case .none:
                         List {
-                            
                             if let _ = appState.nextSub() {
                                 nextSubcriptionView
                             }
-                            
+                            if appState.maxSpending != 0.0 {
+                                maxSpendingView
+                            }
                             Section {
                                 ForEach(filteredSubscriptions, id: \.id) { sub in
                                     NavigationLink {
@@ -65,26 +75,35 @@ struct SubscriptionListView: View {
                                     }
                                 }
                             } header: {
-                                Text("Subscriptions")
+                                Text("Subscriptions".uppercased())
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .fontDesign(.rounded)
+                                    .foregroundColor(.primary)
                             }
+                            .listRowSeparator(.hidden)
+                            .listSectionSeparator(.hidden)
+                            .listRowBackground(Color.clear)
                         }
-                    }
-                    if showLoader {
-                        SpinnerView()
+                        .listStyle(.plain)
+                        .scrollContentBackground(.hidden)
+                        .background {
+                            BackgroundView()
+                        }
                     }
                 }
             }
-            .navigationTitle("Home")
+            .navigationTitle(appState.userName.isEmpty ? "Hi User" : "Hi, \(appState.userName)")
             .searchable(text: $searchTxt, prompt: "Subcription Name")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         showNewSubscriptionView = true
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Menu {
                         ForEach(SortedBy.allCases, id: \.self.rawValue) { text in
                             Button {
@@ -109,31 +128,103 @@ struct SubscriptionListView: View {
             .sheet(isPresented: $showNewSubscriptionView, onDismiss: {
                 if addedNewSubscription {
                     addedNewSubscription = false
-                    getSubscriptions()
+                    Task {
+                        await getSubscriptions()
+                    }
                 }
             }, content: {
                 NewSubscriptionView(
                     addedNewSubscription: $addedNewSubscription
                 )
             })
+            .task {
+                let status = await accountStatus()
+                if status == .available {
+                    await getSubscriptions()
+                }
+            }
         }
     }
     
-    private func getSubscriptions() {
-        let fetch = Subscription.fetchRequest()
-        fetch.sortDescriptors = []
-        let results = (try? moc.fetch(fetch) as [Subscription]) ?? []
-        appState.subscriptions = results
+    func accountStatus() async -> CKAccountStatus {
+        let container = CKContainer.default()
+        let status = try? await container.accountStatus()
+        return status ?? .couldNotDetermine
     }
     
-    private func deleteSubscription(subcription: Subscription) {
-        let object = moc.object(with: subcription.objectID)
-        moc.delete(object)
-        do {
-            try moc.save()
-        }
-        catch {
-            print("==== cant delete object")
+    private func getSubscriptions() async {
+        loadingState = .loading
+         moc.performAndWait({
+            let fetch = Subscription.fetchRequest()
+            fetch.sortDescriptors = []
+            fetch.resultType = .managedObjectResultType
+            if let results = (try? moc.fetch(fetch) as [Subscription]), results.isEmpty == false {
+                appState.subscriptions = results
+                if results.isEmpty {
+                    loadingState = .empty
+                } else {
+                    loadingState = .none
+                }
+            } else {
+                loadingState = .empty
+            }
+        })
+    }
+ 
+    private var maxSpendingView: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(alignment: .top) {
+                        Text("Spending Status")
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                showSpendingDetailsFullCard.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "chevron.down")
+                                .bold()
+                                .foregroundColor(.indigo)
+                        }
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        ProgressView(
+                            value: Float(appState.totalMonthlyAndYearlyPerMonth),
+                            total: Float(appState.maxSpending)
+                        )
+                            .progressViewStyle(.linear)
+                        if appState.maxSpending > appState.totalSubscriptionsPriceMonthly {
+                            let stillHave = appState.totalMonthlyAndYearlyPerMonth - appState.maxSpending
+                            Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(stillHave.formatted(.currency(code: selectedCurrency))) bellow max" : "You are \(stillHave.formatted(.currency(code: selectedCurrency))) bellow max")
+                                .font(.caption)
+                                .foregroundColor(.primary.opacity(0.8))
+                        } else {
+                            let minus = appState.totalMonthlyAndYearlyPerMonth - appState.maxSpending
+                            Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(minus.formatted(.currency(code: selectedCurrency))) above max" : "You are \(minus.formatted(.currency(code: selectedCurrency))) above max")
+                                .font(.caption)
+                                .foregroundColor(.primary.opacity(0.8))
+                        }
+                    }
+                }
+                if showSpendingDetailsFullCard {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Monthly subcriptions total: \(appState.totalSubscriptionsPriceMonthly.formatted(.currency(code: selectedCurrency)))")
+                            .font(.caption)
+                            .foregroundColor(.primary.opacity(0.8))
+                        Text("Yearly Subcriptions Total: \(appState.totalSubscriptionsPriceYearly.formatted(.currency(code: selectedCurrency)))")
+                            .font(.caption)
+                            .foregroundColor(.primary.opacity(0.8))
+                        Text("All subcription per month: \(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: selectedCurrency)))")
+                            .font(.caption)
+                            .foregroundColor(.primary.opacity(0.8))
+                    }
+                }
+            }
+            .listRowBackground(Color.clear)
+            .padding()
+            .background(Color.systemBackgroundColor.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }
     
@@ -141,46 +232,81 @@ struct SubscriptionListView: View {
     private var nextSubcriptionView: some View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(alignment: .center, spacing: 8) {
-                    ForEach(appState.nextSub() ?? [], id: \.id) { sub in
+                LazyHStack(alignment: .center, spacing: 16) {
+                    ForEach(appState.nextSub() ?? [], id: \.id) { tupple in
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(alignment: .center) {
-                                Text(sub.name)
-                                    .font(.body14)
+                                Text(tupple.sub.name)
+                                    .font(.body15)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary.opacity(0.7))
                                 Spacer()
-                                Text(sub.price.formatted(.currency(code: selectedCurrency)))
+                                Text(tupple.sub.price.formatted(.currency(code: selectedCurrency)))
+                                    .font(.body15)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary.opacity(0.7))
+                            }
+                            Text("\(tupple.daysLeft) day(s) left")
+                                .font(.body14)
+                                .fontWeight(.medium)
+                                .foregroundColor(.primary.opacity(0.7))
+                            HStack(alignment: .center) {
+                                Text(tupple.sub.notificationOn ? "Notification on" : "Notification off")
                                     .font(.body14)
                                     .fontWeight(.medium)
-                            }
-                            Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
-                                .font(.body14)
-                                .foregroundColor(.secondary)
-                                .fontWeight(.light)
-                            HStack(alignment: .center) {
-                                Text(sub.notificationOn ? "Nofication on" : "Nofication off")
-                                    .foregroundColor(.secondary)
-                                    .fontWeight(.light)
-                                    .font(.body15)
-                                Image(systemName: "bell")
-                                    .font(.body15)
+                                    .foregroundColor(.primary.opacity(0.7))
+                                Image(systemName: tupple.sub.notificationOn ? "bell.fill" : "bell")
+                                    .font(.body14)
                                     .fontWeight(.medium)
-                                    .foregroundColor(sub.notificationOn ? .blue : .secondary)
+                                    .foregroundColor(tupple.sub.notificationOn ? .indigo : .secondary)
                             }
                         }
                         .padding()
-                        .background(Color.white)
-                        .cornerRadius(12)
+                        .background(Color.systemBackgroundColor.opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
                 }
+                .padding(.vertical, 6)
+                .padding(.trailing, 4)
+                .padding(.leading, 8)
             }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical)
+            
         } header: {
-            Text("On the way next:")
+            Text("On the way next".uppercased())
+                .font(.title3)
+                .fontWeight(.semibold)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
         }
-        .listRowBackground(Color.secondaryBackgroundColor)
+        .listRowSeparator(.hidden)
+        .listSectionSeparator(.hidden)
+        .listRowBackground(Color.clear)
     }
     
     func cellForSub(sub: Subscription) -> some View {
         HStack(alignment: .top, spacing: 16) {
+            if let url = URL(string: "https://logo.clearbit.com/\(sub.imageUrl)") {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                } placeholder: {
+                    if let letter = sub.name.first {
+                        ZStack(alignment: .center) {
+                            Circle()
+                                .fill(Color.blue.opacity(0.4))
+                                .frame(width: 50, height: 50, alignment: .center)
+                            Text(String(letter))
+                                .font(.title2)
+                                .bold()
+                        }
+                    }
+                }
+            }
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .bottom) {
                     Text("Subscribed to:")
@@ -190,17 +316,20 @@ struct SubscriptionListView: View {
                     Text(sub.name)
                         .fontWeight(.medium)
                         .font(.body15)
+                        .foregroundColor(.primary.opacity(0.7))
                 }
                 HStack(alignment: .bottom) {
                     Text("Start date:")
                         .font(.body14)
                         .foregroundColor(.secondary)
+                        .foregroundColor(.primary.opacity(0.7))
                     Spacer()
                     Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
                         .fontWeight(.medium)
                         .font(.body14)
+                        .foregroundColor(.primary.opacity(0.7))
                 }
-                HStack(alignment: .center, spacing: 4) {
+                HStack(alignment: .center, spacing: 2) {
                     Text(sub.price.formatted(.currency(code: selectedCurrency)))
                         .fontWeight(.bold)
                         .foregroundColor(.red)
@@ -212,6 +341,8 @@ struct SubscriptionListView: View {
             }
         }
         .padding()
+        .background(Color.systemBackgroundColor.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 
 }
@@ -223,23 +354,6 @@ struct SubscriptionListView_Previews: PreviewProvider {
                 .environmentObject(AppState())
                 .environmentObject(DataController())
         }
-    }
-}
-
-extension Date {
-
-    func fullDistance(from date: Date, resultIn component: Calendar.Component, calendar: Calendar = .current) -> Int? {
-        calendar.dateComponents([component], from: self, to: date).value(for: component)
-    }
-
-    func distance(from date: Date, only component: Calendar.Component, calendar: Calendar = .current) -> Int {
-        let days1 = calendar.component(component, from: self)
-        let days2 = calendar.component(component, from: date)
-        return days1 - days2
-    }
-
-    func hasSame(_ component: Calendar.Component, as date: Date) -> Bool {
-        distance(from: date, only: component) == 0
     }
 }
 

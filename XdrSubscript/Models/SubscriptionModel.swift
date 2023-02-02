@@ -14,9 +14,9 @@ enum SubscriptionType: Int, Codable, CaseIterable {
     var text: String {
         switch self {
         case .monthly:
-            return "per month"
+            return "/mo"
         case .yearly:
-            return "per year"
+            return "/year"
         }
     }
 }

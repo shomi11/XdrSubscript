@@ -2,21 +2,19 @@
 //  ColorExt.swift
 //  XdrSubscript
 //
-//  Created by Malovic, Milos on 18.11.22..
+//  Created by Malovic, Milos on 2.2.23..
 //
 
-import Foundation
 import SwiftUI
-import UIKit
 
 extension Color {
     
     static var systemBackgroundColor: Color {
-        return Color(uiColor: UIColor.systemBackground)
+        return Color(NSColor.windowBackgroundColor)
     }
     
     static var secondaryBackgroundColor: Color {
-        return Color(uiColor: UIColor.secondarySystemBackground)
+        return Color(NSColor.controlBackgroundColor)
     }
     
     static var rose_pastel: Color {
@@ -29,10 +27,6 @@ extension Color {
     
     static var green_pastel: Color {
         return Color("GreenPastel")
-    }
-    
-    static var quart_label: Color {
-        return Color(uiColor: UIColor.quaternaryLabel)
     }
     
     static var lightLinear1: Color {
@@ -49,3 +43,4 @@ extension Color {
         return Color("BG_dark_2")
     }
 }
+

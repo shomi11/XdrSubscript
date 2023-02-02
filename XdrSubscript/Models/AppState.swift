@@ -11,55 +11,55 @@ import CoreData
 class AppState: ObservableObject {
    
     @Published var subscriptions: [Subscription] = []
+    @Published var maxSpending = UserDefaults.standard.value(forKey: "max_spending") as? Double ?? 0.0
+    @Published var userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
     
-    
-    func nextSub() -> [Subscription]? {
+    func nextSub() -> [DaysLeft]? {
         
-        var subTuple: [(daysLeft: Int, sub: Subscription)]? = []
+        var daysLeftSubs: [DaysLeft] = []
         
-        for subscription in subscriptions {
-            let comp = Calendar.current.dateComponents([.day], from: subscription.startDate)
-          
-            let newDay = Calendar.current.date(from: comp)
-            let dayInMonth = newDay!.day
-            
-            let now = Date()
-            
-            let c = Calendar.current.component(.year, from: now)
-            
-            var nextComp = DateComponents()
-            nextComp.day = dayInMonth
-            nextComp.year = c
+        if !subscriptions.isEmpty {
+            for subscription in subscriptions {
+                let comp = Calendar.current.dateComponents([.day], from: subscription.startDate)
+              
+                let newDay = Calendar.current.date(from: comp)
+                let dayInMonth = newDay!.day
+                
+                let now = Date()
+                
+                let c = Calendar.current.component(.year, from: now)
+                
+                var nextComp = DateComponents()
+                nextComp.day = dayInMonth
+                nextComp.year = c
 
-            let nowNextMonthDay = Calendar.current.date(from: nextComp)
-           
-            let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: nowNextMonthDay!)
-            
-            print("=== next month \(DateFormatter.localizedString(from: nextMonth!, dateStyle: .full, timeStyle: .none))")
-            
-            print("=== now month day \(DateFormatter.localizedString(from: nowNextMonthDay!, dateStyle: .full, timeStyle: .none))")
-            
-            let dayLeft = Calendar.current.numberOf24DaysBetween(.now, and: nextMonth!)
-            let tup = (dayLeft, subscription)
-            subTuple?.append(tup)
+                let nowNextMonthDay = Calendar.current.date(from: nextComp)
+               
+                let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: nowNextMonthDay!)
+                
+                let dayLeft = Calendar.current.numberOf24DaysBetween(.now, and: nextMonth!)
+                let d = DaysLeft.init(sub: subscription, daysLeft: dayLeft)
+                daysLeftSubs.append(d)
+            }
         }
-        let sorted = subTuple?.sorted(by: {$0.daysLeft < $1.daysLeft})
-        let subs = sorted?.compactMap({$0.sub})
-        if let subs = subs {
-            let arr = Array(subs.prefix(4))
-            return arr
-        } else {
-            return nil
-        }
+        return daysLeftSubs
     }
     
     
-    var totalSubscriptionsPrice: Double {
-        return subscriptions.reduce(0) {  $0 + $1.price }
+    var totalSubscriptionsPriceMonthly: Double {
+        return subscriptions.filter({$0.model == .monthly}).reduce(0) {  $0 + $1.price }
+    }
+    
+    var totalSubscriptionsPriceYearly: Double {
+        return subscriptions.filter({$0.model == .yearly}).reduce(0) {  $0 + $1.price }
     }
     
     var theMostExpensiveSubscription: Subscription? {
-        subscriptions.first(where: {$0.price == subscriptions.compactMap({$0.price}).max()})
+        subscriptions.first(where: {$0.price == subscriptions.compactMap({$0.montlyPrice}).max()})
+    }
+    
+    var totalMonthlyAndYearlyPerMonth: Double {
+        totalSubscriptionsPriceMonthly + (totalSubscriptionsPriceYearly / 12)
     }
     
     var groupedByMonth: [GroupedByMonthSubscriptions] {
@@ -86,5 +86,11 @@ extension Calendar {
         
         return numberOfDays.day! + 1
     }
+}
+
+struct DaysLeft {
+    let id = UUID()
+    var sub: Subscription
+    var daysLeft: Int
 }
 

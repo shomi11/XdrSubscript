@@ -19,7 +19,6 @@
 		C02385E72927E346007F9A79 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E62927E346007F9A79 /* InfoView.swift */; };
 		C02385E92927E424007F9A79 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E82927E424007F9A79 /* SettingsView.swift */; };
 		C02385EB2927EA53007F9A79 /* SubscriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385EA2927EA53007F9A79 /* SubscriptionModel.swift */; };
-		C02385ED2927FA69007F9A79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C02385EC2927FA68007F9A79 /* GoogleService-Info.plist */; };
 		C02385EF2927FAA5007F9A79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385EE2927FAA5007F9A79 /* AppDelegate.swift */; };
 		C0238600292841B7007F9A79 /* ColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385FF292841B7007F9A79 /* ColorExt.swift */; };
 		C023860B292B031A007F9A79 /* NewSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C023860A292B031A007F9A79 /* NewSubscriptionView.swift */; };
@@ -27,10 +26,43 @@
 		C0291481292EE0CF00972886 /* GroupedByMonthSubscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291480292EE0CF00972886 /* GroupedByMonthSubscriptions.swift */; };
 		C0291483292F695B00972886 /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291482292F695B00972886 /* CurrencyModel.swift */; };
 		C0291485292F84F700972886 /* SortedBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291484292F84F700972886 /* SortedBy.swift */; };
+		C04F5EB4298A7E8300D423DE /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F5EB3298A7E8300D423DE /* BackgroundView.swift */; };
+		C054F53F298ACCF900122A16 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C054F53E298ACCF900122A16 /* DateExt.swift */; };
+		C054F543298AD1DD00122A16 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C054F542298AD1DD00122A16 /* LoadingState.swift */; };
 		C05B216D292E45650086C8FA /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B216C292E45650086C8FA /* SpinnerView.swift */; };
 		C05B216F292E565D0086C8FA /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B216E292E565D0086C8FA /* EmptyView.swift */; };
 		C05B2171292E611C0086C8FA /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B2170292E611C0086C8FA /* SuccessView.swift */; };
 		C065A5F9297EDC4400D7FC9D /* FontExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C065A5F8297EDC4400D7FC9D /* FontExt.swift */; };
+		C0763E862983D85D00529340 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0763E852983D85D00529340 /* Color.xcassets */; };
+		C088A653298B38490055B3D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C088A652298B38490055B3D9 /* Preview Assets.xcassets */; };
+		C088A658298B38880055B3D9 /* Subscription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */; };
+		C088A659298B38880055B3D9 /* Subscription+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */; };
+		C088A65B298B38B40055B3D9 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C054F53E298ACCF900122A16 /* DateExt.swift */; };
+		C088A65D298B38E10055B3D9 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385DA2927BE42007F9A79 /* MainTabView.swift */; };
+		C088A65E298B38E10055B3D9 /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B216C292E45650086C8FA /* SpinnerView.swift */; };
+		C088A65F298B38E10055B3D9 /* SubscriptionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E42927E2B4007F9A79 /* SubscriptionListView.swift */; };
+		C088A660298B38E10055B3D9 /* SubscriptionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E22927CD48007F9A79 /* SubscriptionDetailsView.swift */; };
+		C088A661298B38E10055B3D9 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E62927E346007F9A79 /* InfoView.swift */; };
+		C088A662298B38E10055B3D9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E82927E424007F9A79 /* SettingsView.swift */; };
+		C088A663298B38E10055B3D9 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F5EB3298A7E8300D423DE /* BackgroundView.swift */; };
+		C088A665298B38E10055B3D9 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385D82927BBED007F9A79 /* SplashView.swift */; };
+		C088A666298B38E10055B3D9 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B216E292E565D0086C8FA /* EmptyView.swift */; };
+		C088A667298B38E10055B3D9 /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05B2170292E611C0086C8FA /* SuccessView.swift */; };
+		C088A668298B38E10055B3D9 /* NewSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C023860A292B031A007F9A79 /* NewSubscriptionView.swift */; };
+		C088A669298B38ED0055B3D9 /* SortedBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291484292F84F700972886 /* SortedBy.swift */; };
+		C088A66A298B38ED0055B3D9 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C054F542298AD1DD00122A16 /* LoadingState.swift */; };
+		C088A66B298B38ED0055B3D9 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00217A5298033C400ECFBA6 /* DataController.swift */; };
+		C088A66C298B38ED0055B3D9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C029147E292ED44400972886 /* AppState.swift */; };
+		C088A66D298B38ED0055B3D9 /* SubscriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385EA2927EA53007F9A79 /* SubscriptionModel.swift */; };
+		C088A66E298B38ED0055B3D9 /* GroupedByMonthSubscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291480292EE0CF00972886 /* GroupedByMonthSubscriptions.swift */; };
+		C088A66F298B38ED0055B3D9 /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291482292F695B00972886 /* CurrencyModel.swift */; };
+		C088A670298B38F30055B3D9 /* XdrSubscriptApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385CA2927BB76007F9A79 /* XdrSubscriptApp.swift */; };
+		C088A671298B38F90055B3D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C02385CE2927BB77007F9A79 /* Assets.xcassets */; };
+		C088A672298B38FD0055B3D9 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0763E852983D85D00529340 /* Color.xcassets */; };
+		C088A673298B39260055B3D9 /* SubscriptionXdr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C00217A7298035C400ECFBA6 /* SubscriptionXdr.xcdatamodeld */; };
+		C088A678298B398D0055B3D9 /* ColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088A676298B398A0055B3D9 /* ColorExt.swift */; };
+		C088A67A298B3A180055B3D9 /* FontExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088A679298B3A180055B3D9 /* FontExt.swift */; };
+		C088A67C298B3D190055B3D9 /* ImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088A67B298B3D190055B3D9 /* ImageExt.swift */; };
 		C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */; };
 		C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
@@ -49,7 +81,6 @@
 		C02385E62927E346007F9A79 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		C02385E82927E424007F9A79 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C02385EA2927EA53007F9A79 /* SubscriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionModel.swift; sourceTree = "<group>"; };
-		C02385EC2927FA68007F9A79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C02385EE2927FAA5007F9A79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C02385FF292841B7007F9A79 /* ColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExt.swift; sourceTree = "<group>"; };
 		C0238608292A6ABB007F9A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -59,16 +90,33 @@
 		C0291480292EE0CF00972886 /* GroupedByMonthSubscriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedByMonthSubscriptions.swift; sourceTree = "<group>"; };
 		C0291482292F695B00972886 /* CurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
 		C0291484292F84F700972886 /* SortedBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedBy.swift; sourceTree = "<group>"; };
+		C04F5EB3298A7E8300D423DE /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		C054F53E298ACCF900122A16 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
+		C054F542298AD1DD00122A16 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		C05B216C292E45650086C8FA /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		C05B216E292E565D0086C8FA /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		C05B2170292E611C0086C8FA /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		C065A5F8297EDC4400D7FC9D /* FontExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExt.swift; sourceTree = "<group>"; };
+		C0763E852983D85D00529340 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		C088A649298B38470055B3D9 /* XdrSubscriptMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XdrSubscriptMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C088A652298B38490055B3D9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C088A654298B38490055B3D9 /* XdrSubscriptMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XdrSubscriptMac.entitlements; sourceTree = "<group>"; };
+		C088A676298B398A0055B3D9 /* ColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExt.swift; sourceTree = "<group>"; };
+		C088A679298B3A180055B3D9 /* FontExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExt.swift; sourceTree = "<group>"; };
+		C088A67B298B3D190055B3D9 /* ImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExt.swift; sourceTree = "<group>"; };
 		C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataClass.swift"; path = "XdrSubscript/Subscription+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataProperties.swift"; path = "XdrSubscript/Subscription+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C02385C42927BB76007F9A79 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C088A646298B38470055B3D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -84,6 +132,7 @@
 				C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */,
 				C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */,
 				C02385C92927BB76007F9A79 /* XdrSubscript */,
+				C088A64A298B38470055B3D9 /* XdrSubscriptMac */,
 				C02385C82927BB76007F9A79 /* Products */,
 				C0F0A77129389E35001B4737 /* Frameworks */,
 			);
@@ -93,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				C02385C72927BB76007F9A79 /* XdrSubscript.app */,
+				C088A649298B38470055B3D9 /* XdrSubscriptMac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,14 +150,17 @@
 		C02385C92927BB76007F9A79 /* XdrSubscript */ = {
 			isa = PBXGroup;
 			children = (
+				C088A67F298BB0D30055B3D9 /* SharedPlatform */,
+				C088A675298B39730055B3D9 /* macOS */,
+				C088A674298B396C0055B3D9 /* iOS */,
 				C0238609292AEC65007F9A79 /* XdrSubscript.entitlements */,
 				C0238608292A6ABB007F9A79 /* Info.plist */,
 				C02385FD29284192007F9A79 /* Extensions */,
 				C02385E12927BE88007F9A79 /* Views */,
 				C02385DC2927BE5E007F9A79 /* Models */,
 				C02385CA2927BB76007F9A79 /* XdrSubscriptApp.swift */,
-				C02385EC2927FA68007F9A79 /* GoogleService-Info.plist */,
 				C02385CE2927BB77007F9A79 /* Assets.xcassets */,
+				C0763E852983D85D00529340 /* Color.xcassets */,
 				C02385D02927BB77007F9A79 /* Preview Content */,
 				C02385EE2927FAA5007F9A79 /* AppDelegate.swift */,
 				C00217A7298035C400ECFBA6 /* SubscriptionXdr.xcdatamodeld */,
@@ -132,6 +185,7 @@
 				C0291482292F695B00972886 /* CurrencyModel.swift */,
 				C0291484292F84F700972886 /* SortedBy.swift */,
 				C00217A5298033C400ECFBA6 /* DataController.swift */,
+				C054F542298AD1DD00122A16 /* LoadingState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -139,16 +193,17 @@
 		C02385E12927BE88007F9A79 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C02385D82927BBED007F9A79 /* SplashView.swift */,
 				C02385DA2927BE42007F9A79 /* MainTabView.swift */,
 				C02385E42927E2B4007F9A79 /* SubscriptionListView.swift */,
+				C023860A292B031A007F9A79 /* NewSubscriptionView.swift */,
+				C05B216C292E45650086C8FA /* SpinnerView.swift */,
 				C02385E22927CD48007F9A79 /* SubscriptionDetailsView.swift */,
 				C02385E62927E346007F9A79 /* InfoView.swift */,
 				C02385E82927E424007F9A79 /* SettingsView.swift */,
-				C023860A292B031A007F9A79 /* NewSubscriptionView.swift */,
-				C02385D82927BBED007F9A79 /* SplashView.swift */,
-				C05B216C292E45650086C8FA /* SpinnerView.swift */,
 				C05B216E292E565D0086C8FA /* EmptyView.swift */,
 				C05B2170292E611C0086C8FA /* SuccessView.swift */,
+				C04F5EB3298A7E8300D423DE /* BackgroundView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,8 +213,74 @@
 			children = (
 				C02385FF292841B7007F9A79 /* ColorExt.swift */,
 				C065A5F8297EDC4400D7FC9D /* FontExt.swift */,
+				C054F53E298ACCF900122A16 /* DateExt.swift */,
+				C088A67B298B3D190055B3D9 /* ImageExt.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C088A64A298B38470055B3D9 /* XdrSubscriptMac */ = {
+			isa = PBXGroup;
+			children = (
+				C088A654298B38490055B3D9 /* XdrSubscriptMac.entitlements */,
+				C088A651298B38490055B3D9 /* Preview Content */,
+			);
+			path = XdrSubscriptMac;
+			sourceTree = "<group>";
+		};
+		C088A651298B38490055B3D9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C088A652298B38490055B3D9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C088A674298B396C0055B3D9 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		C088A675298B39730055B3D9 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				C088A676298B398A0055B3D9 /* ColorExt.swift */,
+				C088A679298B3A180055B3D9 /* FontExt.swift */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		C088A67F298BB0D30055B3D9 /* SharedPlatform */ = {
+			isa = PBXGroup;
+			children = (
+				C088A682298BB10C0055B3D9 /* models */,
+				C088A681298BB0F60055B3D9 /* extensions */,
+				C088A680298BB0ED0055B3D9 /* views */,
+			);
+			path = SharedPlatform;
+			sourceTree = "<group>";
+		};
+		C088A680298BB0ED0055B3D9 /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		C088A681298BB0F60055B3D9 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		C088A682298BB10C0055B3D9 /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 		C0F0A77129389E35001B4737 /* Frameworks */ = {
@@ -191,6 +312,23 @@
 			productReference = C02385C72927BB76007F9A79 /* XdrSubscript.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C088A648298B38470055B3D9 /* XdrSubscriptMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C088A655298B38490055B3D9 /* Build configuration list for PBXNativeTarget "XdrSubscriptMac" */;
+			buildPhases = (
+				C088A645298B38470055B3D9 /* Sources */,
+				C088A646298B38470055B3D9 /* Frameworks */,
+				C088A647298B38470055B3D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XdrSubscriptMac;
+			productName = XdrSubscriptMac;
+			productReference = C088A649298B38470055B3D9 /* XdrSubscriptMac.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -198,11 +336,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					C02385C62927BB76007F9A79 = {
 						CreatedOnToolsVersion = 14.1;
+					};
+					C088A648298B38470055B3D9 = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -222,6 +363,7 @@
 			projectRoot = "";
 			targets = (
 				C02385C62927BB76007F9A79 /* XdrSubscript */,
+				C088A648298B38470055B3D9 /* XdrSubscriptMac */,
 			);
 		};
 /* End PBXProject section */
@@ -232,8 +374,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				C02385D22927BB77007F9A79 /* Preview Assets.xcassets in Resources */,
+				C0763E862983D85D00529340 /* Color.xcassets in Resources */,
 				C02385CF2927BB77007F9A79 /* Assets.xcassets in Resources */,
-				C02385ED2927FA69007F9A79 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C088A647298B38470055B3D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C088A653298B38490055B3D9 /* Preview Assets.xcassets in Resources */,
+				C088A672298B38FD0055B3D9 /* Color.xcassets in Resources */,
+				C088A671298B38F90055B3D9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,9 +398,11 @@
 			files = (
 				C02385EF2927FAA5007F9A79 /* AppDelegate.swift in Sources */,
 				C0291485292F84F700972886 /* SortedBy.swift in Sources */,
+				C054F53F298ACCF900122A16 /* DateExt.swift in Sources */,
 				C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */,
 				C05B216D292E45650086C8FA /* SpinnerView.swift in Sources */,
 				C05B2171292E611C0086C8FA /* SuccessView.swift in Sources */,
+				C054F543298AD1DD00122A16 /* LoadingState.swift in Sources */,
 				C029147F292ED44400972886 /* AppState.swift in Sources */,
 				C02385EB2927EA53007F9A79 /* SubscriptionModel.swift in Sources */,
 				C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */,
@@ -262,11 +416,45 @@
 				C0291483292F695B00972886 /* CurrencyModel.swift in Sources */,
 				C023860B292B031A007F9A79 /* NewSubscriptionView.swift in Sources */,
 				C02385D92927BBED007F9A79 /* SplashView.swift in Sources */,
+				C088A67C298B3D190055B3D9 /* ImageExt.swift in Sources */,
+				C04F5EB4298A7E8300D423DE /* BackgroundView.swift in Sources */,
 				C02385E32927CD48007F9A79 /* SubscriptionDetailsView.swift in Sources */,
 				C0291481292EE0CF00972886 /* GroupedByMonthSubscriptions.swift in Sources */,
 				C02385DB2927BE42007F9A79 /* MainTabView.swift in Sources */,
 				C065A5F9297EDC4400D7FC9D /* FontExt.swift in Sources */,
 				C0238600292841B7007F9A79 /* ColorExt.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C088A645298B38470055B3D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C088A667298B38E10055B3D9 /* SuccessView.swift in Sources */,
+				C088A659298B38880055B3D9 /* Subscription+CoreDataProperties.swift in Sources */,
+				C088A66F298B38ED0055B3D9 /* CurrencyModel.swift in Sources */,
+				C088A666298B38E10055B3D9 /* EmptyView.swift in Sources */,
+				C088A65F298B38E10055B3D9 /* SubscriptionListView.swift in Sources */,
+				C088A66B298B38ED0055B3D9 /* DataController.swift in Sources */,
+				C088A658298B38880055B3D9 /* Subscription+CoreDataClass.swift in Sources */,
+				C088A669298B38ED0055B3D9 /* SortedBy.swift in Sources */,
+				C088A66C298B38ED0055B3D9 /* AppState.swift in Sources */,
+				C088A660298B38E10055B3D9 /* SubscriptionDetailsView.swift in Sources */,
+				C088A663298B38E10055B3D9 /* BackgroundView.swift in Sources */,
+				C088A673298B39260055B3D9 /* SubscriptionXdr.xcdatamodeld in Sources */,
+				C088A65B298B38B40055B3D9 /* DateExt.swift in Sources */,
+				C088A66A298B38ED0055B3D9 /* LoadingState.swift in Sources */,
+				C088A668298B38E10055B3D9 /* NewSubscriptionView.swift in Sources */,
+				C088A65D298B38E10055B3D9 /* MainTabView.swift in Sources */,
+				C088A661298B38E10055B3D9 /* InfoView.swift in Sources */,
+				C088A67A298B3A180055B3D9 /* FontExt.swift in Sources */,
+				C088A66D298B38ED0055B3D9 /* SubscriptionModel.swift in Sources */,
+				C088A670298B38F30055B3D9 /* XdrSubscriptApp.swift in Sources */,
+				C088A66E298B38ED0055B3D9 /* GroupedByMonthSubscriptions.swift in Sources */,
+				C088A65E298B38E10055B3D9 /* SpinnerView.swift in Sources */,
+				C088A662298B38E10055B3D9 /* SettingsView.swift in Sources */,
+				C088A665298B38E10055B3D9 /* SplashView.swift in Sources */,
+				C088A678298B398D0055B3D9 /* ColorExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +600,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xdrdev.XdrSubscript;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -443,9 +634,70 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xdrdev.XdrSubscript;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C088A656298B38490055B3D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = XdrSubscriptMac/XdrSubscriptMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"XdrSubscriptMac/Preview Content\"";
+				DEVELOPMENT_TEAM = NAKVM6YWDQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xdrdev.XdrSubscriptMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C088A657298B38490055B3D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = XdrSubscriptMac/XdrSubscriptMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"XdrSubscriptMac/Preview Content\"";
+				DEVELOPMENT_TEAM = NAKVM6YWDQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xdrdev.XdrSubscriptMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -466,6 +718,15 @@
 			buildConfigurations = (
 				C02385D62927BB77007F9A79 /* Debug */,
 				C02385D72927BB77007F9A79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C088A655298B38490055B3D9 /* Build configuration list for PBXNativeTarget "XdrSubscriptMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C088A656298B38490055B3D9 /* Debug */,
+				C088A657298B38490055B3D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -11,38 +11,19 @@ import CloudKit
 
 class DataController: ObservableObject {
    
-    let container = NSPersistentContainer(name: "SubscriptionXdr")
+    let container = NSPersistentCloudKitContainer(name: "SubscriptionXdr")
     
     init() {
+
         container.loadPersistentStores { description, error in
+            
+            debugPrint("Store Description: \(description)")
             if let error = error {
                 print("==== Core Data failed to load: \(error.localizedDescription)")
             }
+            self.container.viewContext.automaticallyMergesChangesFromParent = true
         }
-        getiCloudStatus()
-    }
-    
-    private func getiCloudStatus() {
-        CKContainer.default().accountStatus { status, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            switch status {
-            case .couldNotDetermine:
-                print(iCloudStatus.couldNotDetermine)
-            case .available:
-                print(iCloudStatus.available)
-            case .restricted:
-                 print(iCloudStatus.restricted)
-            case .noAccount:
-                print(iCloudStatus.noAccount)
-            case .temporarilyUnavailable:
-                 print(iCloudStatus.temporarilyUnavailable)
-            @unknown default:
-                print("unkbonw default")
-            }
-        }
+        
     }
     
     static var subs: [Subscription] {

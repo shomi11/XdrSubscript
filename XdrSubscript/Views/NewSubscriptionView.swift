@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UserNotifications
+import CloudKit
 
 struct NewSubscriptionView: View {
     
@@ -19,6 +20,7 @@ struct NewSubscriptionView: View {
     @State private var showSuccessView = false
     @Binding var addedNewSubscription: Bool
     @State private var setNotification: Bool = false
+    @State private var imageUrl: String = ""
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     
     var formater: NumberFormatter {
@@ -41,7 +43,9 @@ struct NewSubscriptionView: View {
                     }
                     Section {
                         TextField("$0.00", value: $price, formatter: formater)
+                        #if os(iOS)
                             .keyboardType(.decimalPad)
+                        #endif
                     } header: {
                         Text("$ Subscription Price")
                     }
@@ -63,15 +67,27 @@ struct NewSubscriptionView: View {
                     } footer: {
                         Text("Notification reminder on the day of subscription should be billed")
                     }
-                    
+                    Section {
+                        TextField("youtube.com", text: $imageUrl)
+                    } footer: {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("This is used for displaying subscription provider logo.")
+                            HStack(alignment: .center, spacing: 4) {
+                                Text("Provided by")
+                                Link("Clearbit", destination: URL(string: "https://clearbit.com")!)
+                                    .foregroundColor(.blue)
+                                    .underline()
+                            }
+                        }
+                    }
                 }
                 if showSuccessView {
                     SuccessView(title: "\(newSubsriptionProviderName) added to your subsription's.", message: "", showSelf: $showSuccessView)
                 }
             }
-            .navigationBarTitle("New Subscription")
+            .navigationTitle("New Subscription")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         addSubscription()
                     } label: {
@@ -80,7 +96,7 @@ struct NewSubscriptionView: View {
                     }
                     .disabled(saveDisabled())
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
                     } label: {
@@ -114,6 +130,7 @@ struct NewSubscriptionView: View {
         newSub.notificationOn = setNotification
         newSub.startDate = startDate
         newSub.dateCreated = Date()
+        newSub.imageUrl = imageUrl
         if subscriptionModel == .yearly {
             newSub.type = 0
         } else {
@@ -121,6 +138,7 @@ struct NewSubscriptionView: View {
         }
         do {
             try moc.save()
+            //uploadToICloud(subscription: newSub)
             if setNotification {
                
                 let content = UNMutableNotificationContent()
@@ -141,6 +159,21 @@ struct NewSubscriptionView: View {
         } catch {
             print(error)
         }
+    }
+    
+    private func uploadToICloud(subscription: Subscription) {
+        let record = subscription.prepareCloudRecords()
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.savePolicy = .allKeys
+        operation.modifyRecordsResultBlock = { result in
+            switch result {
+            case .failure(let err):
+                print("Error operation add to icloud \(err)")
+            case .success( _):
+                print("Success operation adding to icloud")
+            }
+        }
+        CKContainer.default().publicCloudDatabase.add(operation)
     }
 }
 

@@ -5,6 +5,7 @@
 //  Created by Malovic, Milos on 18.11.22..
 //
 
+#if os(iOS)
 import Foundation
 import SwiftUI
 
@@ -16,6 +17,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
+#endif
 
 
 // Apple sign in callback // https://subscriptxdr.firebaseapp.com/__/auth/handler

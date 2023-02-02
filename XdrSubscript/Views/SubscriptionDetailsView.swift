@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct SubscriptionDetailsView: View {
         
@@ -18,6 +19,8 @@ struct SubscriptionDetailsView: View {
     @State private var showLoader = false
     @State private var errorMessage: String = ""
     @State var subcription: Subscription
+    @State private var notificationOn: Bool = false
+    @State private var urlString: String = ""
     
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     
@@ -40,7 +43,9 @@ struct SubscriptionDetailsView: View {
                 }
                 Section {
                     TextField("0.00", value: $subcription.price, formatter: formater)
-                        .keyboardType(.numberPad)
+                    #if os(iOS)
+                        .keyboardType(.decimalPad)
+                    #endif
                 } header: {
                     Text("Subscription Price \(selectedCurrency)")
                 }
@@ -51,6 +56,10 @@ struct SubscriptionDetailsView: View {
                         Text("Subscription dates")
                     }
                 }
+                
+                notificationManageView
+                imageUrlView
+                
                 Section {
                     Button {
                         showAlert = true
@@ -75,7 +84,7 @@ struct SubscriptionDetailsView: View {
             }
         })
         .toolbar(content: {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     updateSubcription()
                 } label: {
@@ -91,7 +100,27 @@ struct SubscriptionDetailsView: View {
         .alert(Text(errorMessage), isPresented: $showErrorAlert, actions: {
             Button("OK", action: {})
         })
+        .onAppear(perform: {
+            notificationOn = subcription.notificationOn
+            urlString = subcription.imageUrl
+        })
         .navigationTitle("\(subcription.name)")
+    }
+    
+    private var notificationManageView: some View {
+        Section {
+            Toggle("Notification", isOn: $notificationOn)
+        } header: {
+            Text("Notification Manage")
+        }
+    }
+    
+    private var imageUrlView: some View {
+        Section {
+            TextField("one.google.com", text: $urlString)
+        } header: {
+            Text("Subcription Provider url")
+        }
     }
     
     private func deleteSubscription() {
@@ -102,7 +131,6 @@ struct SubscriptionDetailsView: View {
         if let index = appState.subscriptions.firstIndex(where: {$0.id == subcription.id}) {
             appState.subscriptions.remove(at: index)
         }
-        
         DispatchQueue.main.async {
             do {
                 try moc.save()
@@ -122,7 +150,12 @@ struct SubscriptionDetailsView: View {
                     sub.startDate = subcription.startDate
                     sub.price = subcription.price
                     sub.type = subcription.type
-                    sub.notificationOn = subcription.notificationOn
+                    sub.notificationOn = notificationOn
+                    sub.imageUrl = urlString
+                    if !notificationOn {
+                        let identidier = subcription.id.uuidString
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identidier])
+                    }
                     appState.objectWillChange.send()
                 }
             }

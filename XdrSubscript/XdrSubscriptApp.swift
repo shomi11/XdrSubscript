@@ -11,20 +11,29 @@ import SwiftUI
 struct XdrSubscriptApp: App {
     
     @Environment(\.scenePhase) var scene
+    #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
     @StateObject private var dataController = DataController()
     @ObservedObject private var appState: AppState = AppState()
+    
 
     var body: some Scene {
         WindowGroup {
+            #if os(iOS)
             SplashView()
                 .environment(\.managedObjectContext, dataController.container.viewContext)
                 .environmentObject(appState)
+            #else
+            MainTabView()
+                .environment(\.managedObjectContext, dataController.container.viewContext)
+                .environmentObject(appState)
+            #endif
         }
         .onChange(of: scene) { newValue in
             switch newValue {
             case .background:
-                try? dataController.container.viewContext.save()
+                print("background")
             case .inactive:
                 print("inactive")
             case .active:

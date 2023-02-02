@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import UserNotifications
+import CloudKit
 
 struct SplashView: View {
     
@@ -15,6 +16,8 @@ struct SplashView: View {
     @EnvironmentObject var appState: AppState
     @State private var showMain: Bool = false
     @State private var hasTimeElapsed = false
+    
+    let keys = ["dateCreated, id, imageUrl, name, notificationOn, price, startDate, type"]
     
     let timer = Timer()
         
@@ -24,25 +27,29 @@ struct SplashView: View {
                 Image("logo")
                     .resizable()
                     .scaledToFit()
-                Text("Get Better With Your Finance $")
-                    .fontWeight(.heavy)
-                    .font(.title3)
+                    .clipShape(Circle())
+                HStack(alignment: .center, spacing: 4) {
+                    Text("Get Better With Your Finance")
+                    Image(systemName: "dollarsign.circle")
+                        .foregroundStyle(.yellow)
+                }
+                .fontWeight(.heavy)
+                .font(.title3)
             }
             .padding(.horizontal)
         }
         .ignoresSafeArea(.all)
         .onAppear {
-            let fetch = Subscription.fetchRequest()
-            fetch.sortDescriptors = []
-            let results = (try? moc.fetch(fetch) as [Subscription]) ?? []
-            appState.subscriptions = results
             Task {
-                await delayText()
+               // await getSubscriptions()
+                await sleep()
             }
         }
+        #if os(iOS)
         .fullScreenCover(isPresented: $showMain) {
             MainTabView()
         }
+        #endif
         .onChange(of: hasTimeElapsed) { newValue in
             if newValue {
                 showMain = true
@@ -50,9 +57,20 @@ struct SplashView: View {
         }
     }
     
-    private func delayText() async {
+    private func sleep() async {
         try? await Task.sleep(nanoseconds: 2_000_000_000)
         hasTimeElapsed = true
+    }
+    
+    private func getSubscriptions() async {
+         moc.performAndWait({
+            let fetch = Subscription.fetchRequest()
+            fetch.sortDescriptors = []
+            fetch.resultType = .managedObjectResultType
+            if let results = (try? moc.fetch(fetch) as [Subscription]), results.isEmpty == false {
+                appState.subscriptions = results
+            }
+        })
     }
 }
 

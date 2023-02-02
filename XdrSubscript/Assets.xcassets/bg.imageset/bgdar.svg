@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2158px" height="5662px" viewBox="0 0 2158 5662" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Oval + Oval Copy 3 + Oval Copy 4 + Oval Copy + Oval Copy 2 Mask</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="2158" height="5662"></rect>
+    </defs>
+    <g id="sub_wall" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Oval-+-Oval-Copy-3-+-Oval-Copy-4-+-Oval-Copy-+-Oval-Copy-2-Mask">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#001122" xlink:href="#path-1"></use>
+            <circle id="Oval" fill="#AA67FF" mask="url(#mask-2)" cx="876" cy="1658" r="237"></circle>
+            <circle id="Oval-Copy-3" fill="#A965FF" mask="url(#mask-2)" cx="1627" cy="4396" r="414"></circle>
+            <circle id="Oval-Copy-4" fill="#943FFF" mask="url(#mask-2)" cx="1402" cy="2543" r="148"></circle>
+            <circle id="Oval-Copy" fill="#7000FF" mask="url(#mask-2)" cx="713.5" cy="3226.5" r="562.5"></circle>
+            <circle id="Oval-Copy-2" fill="#BF8FFC" mask="url(#mask-2)" cx="2153.5" cy="1160.5" r="473.5"></circle>
+        </g>
+    </g>
+</svg>
