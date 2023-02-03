@@ -62,6 +62,18 @@ struct SubscriptionDetailsView: View {
                 
                 Section {
                     Button {
+                        subcription.movedToHistory = true
+                        subcription.dateMovedToHistory = Date()
+                        try? moc.save()
+                        dismiss()
+                    } label: {
+                        Label("Move To History", systemImage: "calendar.badge.clock")
+                    }
+                    .buttonStyle(.plain)
+                }
+                
+                Section {
+                    Button {
                         showAlert = true
                     } label: {
                         Label("Delete", systemImage: "trash")

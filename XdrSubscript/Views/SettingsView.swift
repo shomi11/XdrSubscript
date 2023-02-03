@@ -12,8 +12,8 @@ struct SettingsView: View {
     
     var formater: NumberFormatter {
         let formater = NumberFormatter()
-        formater.currencyCode = selectedCurrency
-        formater.currencySymbol = selectedCurrency
+        formater.currencyCode = appState.selectedCurrency
+        formater.currencySymbol = appState.selectedCurrency
         formater.numberStyle = .decimal
         formater.formatWidth = 2
         return formater
@@ -21,8 +21,7 @@ struct SettingsView: View {
     
     @EnvironmentObject private var appState: AppState
     @State private var currencyModel = CurrencyModel()
-    @State private var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
-    @State private var notificationEnabled = UserDefaults.standard.bool(forKey: "notificationEnabled")
+    @State private var notificationEnabled = UserDefaults(suiteName: .accessGroup)?.bool(forKey: "notificationEnabled")
       
     private enum FocusedField {
         case ammount
@@ -56,14 +55,14 @@ struct SettingsView: View {
                             Button("Confirm") {
                                 if focusedField == .ammount {
                                     if appState.maxSpending != 0.0 {
-                                        UserDefaults.standard.set(appState.maxSpending, forKey: "max_spending")
+                                        UserDefaults(suiteName: .accessGroup)?.set(appState.maxSpending, forKey: "max_spending")
                                         focusedField = nil
                                     } else {
                                         appState.maxSpending = 0.0
                                         focusedField = nil
                                     }
                                 } else if focusedField == .userName {
-                                    UserDefaults.standard.set(appState.userName, forKey: "userName")
+                                    UserDefaults(suiteName: .accessGroup)?.set(appState.userName, forKey: "userName")
                                     focusedField = nil
                                 }
                             }
@@ -79,13 +78,13 @@ struct SettingsView: View {
     
     private var currencySettings: some View {
         Section {
-            Picker("Choose your currency code", selection: $selectedCurrency) {
+            Picker("Choose your currency code", selection: $appState.selectedCurrency) {
                 ForEach(currencyModel.currencyCodes.map({$0.identifier}), id: \.self) { code in
                     Text(code)
                 }
             }
-            .onChange(of: selectedCurrency) { newValue in
-                UserDefaults.standard.set(newValue, forKey: "selectedCurrency")
+            .onChange(of: appState.selectedCurrency) { newValue in
+                UserDefaults(suiteName: .accessGroup)?.set(newValue, forKey: "selectedCurrency")
             }
         } header: {
             Text("Currency")

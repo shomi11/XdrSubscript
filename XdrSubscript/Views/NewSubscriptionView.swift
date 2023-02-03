@@ -131,6 +131,8 @@ struct NewSubscriptionView: View {
         newSub.startDate = startDate
         newSub.dateCreated = Date()
         newSub.imageUrl = imageUrl
+        newSub.movedToHistory = false
+        newSub.dateMovedToHistory = Date()
         if subscriptionModel == .yearly {
             newSub.type = 0
         } else {

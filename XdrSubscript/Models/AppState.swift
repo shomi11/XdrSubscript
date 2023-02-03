@@ -11,15 +11,17 @@ import CoreData
 class AppState: ObservableObject {
    
     @Published var subscriptions: [Subscription] = []
-    @Published var maxSpending = UserDefaults.standard.value(forKey: "max_spending") as? Double ?? 0.0
-    @Published var userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
+    @Published var maxSpending = UserDefaults(suiteName: .accessGroup)?.value(forKey: "max_spending") as? Double ?? 0.0
+    @Published var userName = UserDefaults(suiteName: .accessGroup)?.value(forKey: "userName") as? String ?? ""
+    @Published var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? "USD"
+    @Published var loadingState: LoadingState = .loading
     
     func nextSub() -> [DaysLeft]? {
         
         var daysLeftSubs: [DaysLeft] = []
         
         if !subscriptions.isEmpty {
-            for subscription in subscriptions {
+            for subscription in subscriptions.filter({$0.movedToHistory == false}) {
                 let comp = Calendar.current.dateComponents([.day], from: subscription.startDate)
               
                 let newDay = Calendar.current.date(from: comp)
@@ -47,15 +49,15 @@ class AppState: ObservableObject {
     
     
     var totalSubscriptionsPriceMonthly: Double {
-        return subscriptions.filter({$0.model == .monthly}).reduce(0) {  $0 + $1.price }
+        return subscriptions.filter({$0.movedToHistory == false}).filter({$0.model == .monthly}).reduce(0) {  $0 + $1.price }
     }
     
     var totalSubscriptionsPriceYearly: Double {
-        return subscriptions.filter({$0.model == .yearly}).reduce(0) {  $0 + $1.price }
+        return subscriptions.filter({$0.movedToHistory == false}).filter({$0.model == .yearly}).reduce(0) {  $0 + $1.price }
     }
     
     var theMostExpensiveSubscription: Subscription? {
-        subscriptions.first(where: {$0.price == subscriptions.compactMap({$0.montlyPrice}).max()})
+        subscriptions.filter({$0.movedToHistory == false}).first(where: {$0.price == subscriptions.compactMap({$0.montlyPrice}).max()})
     }
     
     var totalMonthlyAndYearlyPerMonth: Double {
@@ -66,7 +68,7 @@ class AppState: ObservableObject {
         
         var groupedByMonthSubscriptions: [GroupedByMonthSubscriptions] = []
         
-        let groupDic = Dictionary(grouping: subscriptions) { (pendingCamera) -> DateComponents in
+        let groupDic = Dictionary(grouping: subscriptions.filter({$0.movedToHistory == false})) { (pendingCamera) -> DateComponents in
             let date = Calendar.current.dateComponents([.month], from: (pendingCamera.startDate))
             return date
         }

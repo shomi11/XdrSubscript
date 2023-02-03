@@ -47,4 +47,11 @@ public class Subscription: NSManagedObject {
         }
     }
     
+    var totalSpentHistory: Double {
+        let diffs = Calendar.current.dateComponents([.month], from: startDate, to: dateMovedToHistory)
+        guard let monthCount = diffs.month, monthCount > 0 else { return price }
+        let total = montlyPrice * Double(monthCount)
+        return total
+    }
+    
 }

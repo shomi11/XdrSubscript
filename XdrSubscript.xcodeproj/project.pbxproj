@@ -65,6 +65,8 @@
 		C088A67C298B3D190055B3D9 /* ImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088A67B298B3D190055B3D9 /* ImageExt.swift */; };
 		C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */; };
 		C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */; };
+		C0F5D245298C18E70053E0AB /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5D244298C18E70053E0AB /* StringExt.swift */; };
+		C0F5D247298C7D150053E0AB /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5D246298C7D150053E0AB /* HistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		C088A67B298B3D190055B3D9 /* ImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExt.swift; sourceTree = "<group>"; };
 		C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataClass.swift"; path = "XdrSubscript/Subscription+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataProperties.swift"; path = "XdrSubscript/Subscription+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C0F5D244298C18E70053E0AB /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
+		C0F5D246298C7D150053E0AB /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +208,7 @@
 				C05B216E292E565D0086C8FA /* EmptyView.swift */,
 				C05B2170292E611C0086C8FA /* SuccessView.swift */,
 				C04F5EB3298A7E8300D423DE /* BackgroundView.swift */,
+				C0F5D246298C7D150053E0AB /* HistoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 		C088A681298BB0F60055B3D9 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C0F5D244298C18E70053E0AB /* StringExt.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -399,6 +405,7 @@
 				C02385EF2927FAA5007F9A79 /* AppDelegate.swift in Sources */,
 				C0291485292F84F700972886 /* SortedBy.swift in Sources */,
 				C054F53F298ACCF900122A16 /* DateExt.swift in Sources */,
+				C0F5D247298C7D150053E0AB /* HistoryView.swift in Sources */,
 				C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */,
 				C05B216D292E45650086C8FA /* SpinnerView.swift in Sources */,
 				C05B2171292E611C0086C8FA /* SuccessView.swift in Sources */,
@@ -406,6 +413,7 @@
 				C029147F292ED44400972886 /* AppState.swift in Sources */,
 				C02385EB2927EA53007F9A79 /* SubscriptionModel.swift in Sources */,
 				C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */,
+				C0F5D245298C18E70053E0AB /* StringExt.swift in Sources */,
 				C02385E72927E346007F9A79 /* InfoView.swift in Sources */,
 				C00217A6298033C400ECFBA6 /* DataController.swift in Sources */,
 				C05B216F292E565D0086C8FA /* EmptyView.swift in Sources */,

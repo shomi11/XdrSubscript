@@ -23,7 +23,6 @@ struct SuccessView: View {
             VStack(alignment: .center, spacing: 8) {
                 if !title.isEmpty {
                     Text(title)
-                        .font(.title3)
                         .fontWeight(.semibold)
                 }
                 if !message.isEmpty {

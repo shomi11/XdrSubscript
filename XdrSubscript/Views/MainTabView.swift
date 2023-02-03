@@ -23,6 +23,13 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Info", systemImage: "info")
                 }
+            
+            HistoryView()
+                .environmentObject(appState)
+                .tabItem {
+                    Label("History", systemImage: "calendar.badge.clock")
+                }
+            
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")

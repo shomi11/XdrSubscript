@@ -13,6 +13,7 @@ struct InfoView: View {
     @EnvironmentObject private var appState: AppState
     var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     @Environment(\.colorScheme) var colorScheme
+    @State private var newSubscriptionView: Bool = false
     
     var body: some View {
         
@@ -31,14 +32,20 @@ struct InfoView: View {
                     }
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
+                    .background {
+                        BackgroundView()
+                    }
                 } else {
-                    EmptyView()
+                    EmptyListView(showNewSubscriptionView: $newSubscriptionView)
                 }
             }
-            .background {
-                BackgroundView()
-            }
             .navigationTitle("Subscriptions Info")
+            .sheet(isPresented: $newSubscriptionView) {
+                
+            } content: {
+                NewSubscriptionView(addedNewSubscription: .constant(false))
+            }
+
         }
     }
     

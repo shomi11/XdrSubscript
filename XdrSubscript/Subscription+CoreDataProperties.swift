@@ -24,6 +24,8 @@ extension Subscription {
     @NSManaged public var type: Int16
     @NSManaged public var dateCreated: Date
     @NSManaged public var imageUrl: String
+    @NSManaged public var movedToHistory: Bool
+    @NSManaged public var dateMovedToHistory: Date
 
 }
 

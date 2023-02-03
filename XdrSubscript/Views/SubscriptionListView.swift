@@ -12,36 +12,32 @@ import CloudKit
 struct SubscriptionListView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var appState: AppState
     @State private var showNewSubscriptionView: Bool = false
-    @State private var loadingState: LoadingState = .loading
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
     @State private var showSpendingDetailsFullCard: Bool = false
-    @State private var subcriptions: [Subscription] = []
     
-    var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     @State var orderedBy = UserDefaults.standard.value(forKey: "sorted") as? SortedBy.RawValue ?? SortedBy.newest.rawValue
     
     var filteredSubscriptions: [Subscription] {
            if searchTxt.isEmpty {
                switch orderedBy {
                case SortedBy.byName.rawValue:
-                   return appState.subscriptions.sorted(by: {$0.name < $1.name})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.name < $1.name})
                case SortedBy.newest.rawValue:
-                   return appState.subscriptions.sorted(by: {$0.startDate < $1.startDate})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.startDate < $1.startDate})
                case SortedBy.oldest.rawValue:
-                   return appState.subscriptions.sorted(by: {$0.startDate > $1.startDate})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.startDate > $1.startDate})
                case SortedBy.byPriceAscending.rawValue:
-                   return appState.subscriptions.sorted(by: {$0.price > $1.price})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.price > $1.price})
                case SortedBy.byPriceDescending.rawValue:
-                   return appState.subscriptions.sorted(by: {$0.price < $1.price})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.price < $1.price})
                default:
-                   return appState.subscriptions
+                   return appState.subscriptions.filter({$0.movedToHistory == false})
                }
            } else {
-               return appState.subscriptions.filter { $0.name.localizedCaseInsensitiveContains(searchTxt) }
+               return appState.subscriptions.filter({$0.movedToHistory == false}).filter { $0.name.localizedCaseInsensitiveContains(searchTxt) }
            }
        }
     
@@ -49,7 +45,7 @@ struct SubscriptionListView: View {
         NavigationStack {
             Group {
                 ZStack {
-                    switch loadingState {
+                    switch appState.loadingState {
                     case .loading:
                         ProgressView()
                             .progressViewStyle(.circular)
@@ -153,7 +149,7 @@ struct SubscriptionListView: View {
     }
     
     private func getSubscriptions() async {
-        loadingState = .loading
+        appState.loadingState = .loading
          moc.performAndWait({
             let fetch = Subscription.fetchRequest()
             fetch.sortDescriptors = []
@@ -161,12 +157,16 @@ struct SubscriptionListView: View {
             if let results = (try? moc.fetch(fetch) as [Subscription]), results.isEmpty == false {
                 appState.subscriptions = results
                 if results.isEmpty {
-                    loadingState = .empty
+                    appState.loadingState = .empty
                 } else {
-                    loadingState = .none
+                    if results.filter({$0.movedToHistory == false}).isEmpty {
+                        appState.loadingState = .empty
+                    } else {
+                        appState.loadingState = .none
+                    }
                 }
             } else {
-                loadingState = .empty
+                appState.loadingState = .empty
             }
         })
     }
@@ -196,12 +196,12 @@ struct SubscriptionListView: View {
                             .progressViewStyle(.linear)
                         if appState.maxSpending > appState.totalSubscriptionsPriceMonthly {
                             let stillHave = appState.totalMonthlyAndYearlyPerMonth - appState.maxSpending
-                            Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(stillHave.formatted(.currency(code: selectedCurrency))) bellow max" : "You are \(stillHave.formatted(.currency(code: selectedCurrency))) bellow max")
+                            Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(stillHave.formatted(.currency(code: appState.selectedCurrency))) bellow max" : "You are \(stillHave.formatted(.currency(code: appState.selectedCurrency))) bellow max")
                                 .font(.caption)
                                 .foregroundColor(.primary.opacity(0.8))
                         } else {
                             let minus = appState.totalMonthlyAndYearlyPerMonth - appState.maxSpending
-                            Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(minus.formatted(.currency(code: selectedCurrency))) above max" : "You are \(minus.formatted(.currency(code: selectedCurrency))) above max")
+                            Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(minus.formatted(.currency(code: appState.selectedCurrency))) above max" : "You are \(minus.formatted(.currency(code: appState.selectedCurrency))) above max")
                                 .font(.caption)
                                 .foregroundColor(.primary.opacity(0.8))
                         }
@@ -209,13 +209,13 @@ struct SubscriptionListView: View {
                 }
                 if showSpendingDetailsFullCard {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Monthly subcriptions total: \(appState.totalSubscriptionsPriceMonthly.formatted(.currency(code: selectedCurrency)))")
+                        Text("Monthly subcriptions total: \(appState.totalSubscriptionsPriceMonthly.formatted(.currency(code: appState.selectedCurrency)))")
                             .font(.caption)
                             .foregroundColor(.primary.opacity(0.8))
-                        Text("Yearly Subcriptions Total: \(appState.totalSubscriptionsPriceYearly.formatted(.currency(code: selectedCurrency)))")
+                        Text("Yearly Subcriptions Total: \(appState.totalSubscriptionsPriceYearly.formatted(.currency(code: appState.selectedCurrency)))")
                             .font(.caption)
                             .foregroundColor(.primary.opacity(0.8))
-                        Text("All subcription per month: \(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: selectedCurrency)))")
+                        Text("All subcription per month: \(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: appState.selectedCurrency)))")
                             .font(.caption)
                             .foregroundColor(.primary.opacity(0.8))
                     }
@@ -241,7 +241,7 @@ struct SubscriptionListView: View {
                                     .fontWeight(.bold)
                                     .foregroundColor(.primary.opacity(0.7))
                                 Spacer()
-                                Text(tupple.sub.price.formatted(.currency(code: selectedCurrency)))
+                                Text(tupple.sub.price.formatted(.currency(code: appState.selectedCurrency)))
                                     .font(.body15)
                                     .fontWeight(.bold)
                                     .foregroundColor(.primary.opacity(0.7))
@@ -330,7 +330,7 @@ struct SubscriptionListView: View {
                         .foregroundColor(.primary.opacity(0.7))
                 }
                 HStack(alignment: .center, spacing: 2) {
-                    Text(sub.price.formatted(.currency(code: selectedCurrency)))
+                    Text(sub.price.formatted(.currency(code: appState.selectedCurrency)))
                         .fontWeight(.bold)
                         .foregroundColor(.red)
                         .font(.body14)
