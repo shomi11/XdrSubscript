@@ -22,4 +22,19 @@ extension Date {
     func hasSame(_ component: Calendar.Component, as date: Date) -> Bool {
         distance(from: date, only: component) == 0
     }
+    
+    
+    var weekday: Int {
+        return Calendar.current.component(.weekday, from: self)
+    }
+    
+    var day: Int {
+        return Calendar.current.component(.day, from: self)
+    }
+    
+    var hour: Int {
+        return Calendar.current.component(.hour, from: self)
+    }
 }
+
+

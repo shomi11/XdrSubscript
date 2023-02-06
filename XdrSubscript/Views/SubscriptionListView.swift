@@ -8,6 +8,8 @@
 import SwiftUI
 import CoreData
 import CloudKit
+import CoreSpotlight
+import WidgetKit
 
 struct SubscriptionListView: View {
     
@@ -17,6 +19,7 @@ struct SubscriptionListView: View {
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
     @State private var showSpendingDetailsFullCard: Bool = false
+    @State private var path: [Subscription] = []
     
     @State var orderedBy = UserDefaults.standard.value(forKey: "sorted") as? SortedBy.RawValue ?? SortedBy.newest.rawValue
     
@@ -42,7 +45,7 @@ struct SubscriptionListView: View {
        }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             Group {
                 ZStack {
                     switch appState.loadingState {
@@ -62,11 +65,7 @@ struct SubscriptionListView: View {
                             }
                             Section {
                                 ForEach(filteredSubscriptions, id: \.id) { sub in
-                                    NavigationLink {
-                                        SubscriptionDetailsView(
-                                            subcription: sub
-                                        )
-                                    } label: {
+                                    NavigationLink(value: sub) {
                                         cellForSub(sub: sub)
                                     }
                                 }
@@ -90,7 +89,14 @@ struct SubscriptionListView: View {
                 }
             }
             .navigationTitle(appState.userName.isEmpty ? "Hi User" : "Hi, \(appState.userName)")
+            .navigationDestination(for: Subscription.self, destination: { sub in
+                SubscriptionDetailsView(subcription: sub)
+            })
             .searchable(text: $searchTxt, prompt: "Subcription Name")
+            .onContinueUserActivity(CSSearchableItemActionType, perform: loadSpotLightSubscription)
+            .onOpenURL(perform: { url in
+                showNewSubscriptionView = true
+            })
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -168,6 +174,7 @@ struct SubscriptionListView: View {
             } else {
                 appState.loadingState = .empty
             }
+             WidgetCenter.shared.reloadAllTimelines()
         })
     }
  
@@ -225,6 +232,16 @@ struct SubscriptionListView: View {
             .padding()
             .background(Color.systemBackgroundColor.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+    }
+    
+    func loadSpotLightSubscription(_ activity: NSUserActivity) {
+        if let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+            if let sub = appState.convertSpotLightItemToSubscription(identifier, context: moc) {
+                if sub.movedToHistory == false {
+                    path.append(sub)
+                }
+            }
         }
     }
     

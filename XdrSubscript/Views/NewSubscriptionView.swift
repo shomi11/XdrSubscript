@@ -11,8 +11,9 @@ import CloudKit
 
 struct NewSubscriptionView: View {
     
-    @Environment(\.managedObjectContext) var moc
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.managedObjectContext) private var moc
+    @EnvironmentObject private var appState: AppState
+    @Environment(\.dismiss) private var dismiss
     @State private var newSubsriptionProviderName: String = ""
     @State private var startDate: Date = Date()
     @State private var price: Double = 0.00
@@ -21,13 +22,12 @@ struct NewSubscriptionView: View {
     @Binding var addedNewSubscription: Bool
     @State private var setNotification: Bool = false
     @State private var imageUrl: String = ""
-    var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     
     var formater: NumberFormatter {
         let formater = NumberFormatter()
         formater.numberStyle = .decimal
-        formater.currencySymbol = Locale.current.currencySymbol ?? selectedCurrency
-        formater.currencyCode = selectedCurrency
+        formater.currencySymbol = Locale.current.currencySymbol ?? appState.selectedCurrency
+        formater.currencyCode = appState.selectedCurrency
         formater.formatWidth = 2
         return formater
     }
@@ -133,6 +133,7 @@ struct NewSubscriptionView: View {
         newSub.imageUrl = imageUrl
         newSub.movedToHistory = false
         newSub.dateMovedToHistory = Date()
+        print("sub object id \(newSub.objectID)")
         if subscriptionModel == .yearly {
             newSub.type = 0
         } else {
@@ -140,12 +141,11 @@ struct NewSubscriptionView: View {
         }
         do {
             try moc.save()
-            //uploadToICloud(subscription: newSub)
             if setNotification {
                
                 let content = UNMutableNotificationContent()
                 content.title = newSubsriptionProviderName
-                content.subtitle = "\(selectedCurrency) \(price)"
+                content.subtitle = "\(appState.selectedCurrency) \(price)"
                 content.sound = UNNotificationSound.default
                 
                 var components = Calendar.current.dateComponents([.weekday, .day], from: startDate)
@@ -158,24 +158,10 @@ struct NewSubscriptionView: View {
                 UNUserNotificationCenter.current().add(request)
             }
             showSuccessView = true
+            appState.addSubscriptionToSpotlight(newSub)
         } catch {
             print(error)
         }
-    }
-    
-    private func uploadToICloud(subscription: Subscription) {
-        let record = subscription.prepareCloudRecords()
-        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-        operation.savePolicy = .allKeys
-        operation.modifyRecordsResultBlock = { result in
-            switch result {
-            case .failure(let err):
-                print("Error operation add to icloud \(err)")
-            case .success( _):
-                print("Success operation adding to icloud")
-            }
-        }
-        CKContainer.default().publicCloudDatabase.add(operation)
     }
 }
 
@@ -184,22 +170,4 @@ struct NewSubscriptionView_Previews: PreviewProvider {
         NewSubscriptionView(addedNewSubscription: .constant(false))
             .environmentObject(DataController())
     }
-}
-
-
-extension Date {
-    
-    var weekday: Int {
-        return Calendar.current.component(.weekday, from: self)
-    }
-    
-    var day: Int {
-        return Calendar.current.component(.day, from: self)
-    }
-    
-    var hour: Int {
-        return Calendar.current.component(.hour, from: self)
-    }
-    
-    
 }

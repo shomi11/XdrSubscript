@@ -8,15 +8,22 @@
 import Foundation
 import CoreData
 import CloudKit
+import WidgetKit
 
 class DataController: ObservableObject {
    
     let container = NSPersistentCloudKitContainer(name: "SubscriptionXdr")
     
     init() {
+        
+        let groupID = "group.com.subscriptxdr"
+        if let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) {
+            self.container.persistentStoreDescriptions.first?.url = url.appendingPathComponent("SubscriptXdr.sqlite")
+        }
+        
+        
 
         container.loadPersistentStores { description, error in
-            
             debugPrint("Store Description: \(description)")
             if let error = error {
                 print("==== Core Data failed to load: \(error.localizedDescription)")

@@ -35,16 +35,43 @@ struct HistoryView: View {
             Group {
                 if appState.subscriptions.filter({$0.movedToHistory}).isEmpty == false && appState.loadingState != .loading {
                     List(appState.subscriptions.filter({$0.movedToHistory})) { sub in
-                        cellForSub(sub: sub)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button {
-                                    selectedSubToDelete = sub
-                                    deleteAlertType = .deleteSub(name: sub.name)
-                                    showDeleteAlert = true
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+                        Section {
+                            cellForSub(sub: sub)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button {
+                                        selectedSubToDelete = sub
+                                        deleteAlertType = .deleteSub(name: sub.name)
+                                        showDeleteAlert = true
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                    .tint(.red)
+                                    Button {
+                                        appState.objectWillChange.send()
+                                        sub.movedToHistory = false
+                                        do {
+                                            try moc.save()
+                                        } catch {
+                                            print(error)
+                                        }
+                                    } label: {
+                                        Label("Move to active", systemImage: "folder")
+                                    }
+                                    .tint(.yellow)
                                 }
-                            }
+                        } header: {
+                            Text("Subscriptions".uppercased())
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .fontDesign(.rounded)
+                                .foregroundColor(.primary)
+                        }
+                        .listRowBackground(Color.clear)
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background {
+                        BackgroundView()
                     }
                 } else if appState.loadingState == .loading {
                     SpinnerView()

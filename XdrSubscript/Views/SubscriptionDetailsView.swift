@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UserNotifications
+import CoreSpotlight
 
 struct SubscriptionDetailsView: View {
         
@@ -70,9 +71,7 @@ struct SubscriptionDetailsView: View {
                         Label("Move To History", systemImage: "calendar.badge.clock")
                     }
                     .buttonStyle(.plain)
-                }
-                
-                Section {
+                    
                     Button {
                         showAlert = true
                     } label: {
@@ -136,6 +135,15 @@ struct SubscriptionDetailsView: View {
     }
     
     private func deleteSubscription() {
+     
+        let identifier = subcription.objectID.uriRepresentation().absoluteString
+        
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [identifier]) { error in
+            if let error = error {
+                print("ERROR: Delete searchable item \(error)")
+            }
+        }
+        
         let object = moc.object(with: subcription.objectID)
         moc.delete(object)
         
@@ -155,6 +163,14 @@ struct SubscriptionDetailsView: View {
     }
     
     private func updateSubcription() {
+       
+        let identifier = subcription.objectID.uriRepresentation().absoluteString
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [identifier]) { error in
+            if let error = error {
+                print("ERROR: Delete searchable item \(error)")
+            }
+        }
+        
         do {
             appState.subscriptions.forEach { sub in
                 if sub.id == subcription.id {
@@ -171,6 +187,7 @@ struct SubscriptionDetailsView: View {
                     appState.objectWillChange.send()
                 }
             }
+            appState.addSubscriptionToSpotlight(subcription)
             try moc.save()
             dismiss()
         }

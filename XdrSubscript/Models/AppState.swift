@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import CoreSpotlight
 
 class AppState: ObservableObject {
    
@@ -80,6 +81,28 @@ class AppState: ObservableObject {
         
         return groupedByMonthSubscriptions
     }
+    
+    func addSubscriptionToSpotlight(_ subscription: Subscription) {
+        let id = subscription.objectID.uriRepresentation().absoluteString
+        let attributeSet = CSSearchableItemAttributeSet.init(contentType: .text)
+        attributeSet.title = subscription.name
+        print("=== id \(id)")
+        let type = subscription.model == .yearly ? "year" : "month"
+        attributeSet.contentDescription = "\(subscription.priceTxt)/\(type)"
+        
+        let searchableSubscription = CSSearchableItem.init(uniqueIdentifier: id, domainIdentifier: id, attributeSet: attributeSet)
+        CSSearchableIndex.default().indexSearchableItems([searchableSubscription]) { error in
+            if let error = error {
+                print("ERROR: == Searchable item core spot light: \(error)")
+            }
+        }
+    }
+    
+    func convertSpotLightItemToSubscription(_ identifier: String, context: NSManagedObjectContext) -> Subscription? {
+        guard let url = URL(string: identifier) else { return nil }
+        guard let id = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else { return nil }
+        return try? context.existingObject(with: id) as? Subscription
+    }
 }
 
 extension Calendar {
@@ -95,4 +118,5 @@ struct DaysLeft {
     var sub: Subscription
     var daysLeft: Int
 }
+
 

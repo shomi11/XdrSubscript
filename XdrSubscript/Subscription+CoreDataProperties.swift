@@ -31,6 +31,25 @@ extension Subscription {
 
 extension Subscription : Identifiable {
     
+    static var example: [Subscription] {
+        var subs: [Subscription] = []
+        for i in 0..<3 {
+            let sub = Subscription()
+            sub.id = UUID()
+            sub.movedToHistory = false
+            sub.name = "Name \(i)"
+            sub.type = 1
+            sub.notificationOn = true
+            sub.dateCreated = Date()
+            sub.dateMovedToHistory = Date()
+            sub.price = 1100
+            sub.imageUrl = "a1.rs"
+            sub.startDate = Date()
+            subs.append(sub)
+        }
+        return subs
+    }
+    
     func prepareCloudRecords() -> CKRecord {
         let parentName = objectID.uriRepresentation().absoluteString
         let parentID = CKRecord.ID(recordName: parentName)

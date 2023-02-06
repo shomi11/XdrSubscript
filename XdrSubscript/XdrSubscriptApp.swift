@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreSpotlight
 
 @main
 struct XdrSubscriptApp: App {

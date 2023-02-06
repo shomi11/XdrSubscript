@@ -11,15 +11,13 @@ import Charts
 struct InfoView: View {
     
     @EnvironmentObject private var appState: AppState
-    var selectedCurrency = UserDefaults.standard.value(forKey: "selectedCurrency") as? String ?? "USD"
     @Environment(\.colorScheme) var colorScheme
     @State private var newSubscriptionView: Bool = false
     
     var body: some View {
-        
         NavigationStack {
             Group {
-                if !appState.subscriptions.isEmpty {
+                if !appState.subscriptions.filter({$0.movedToHistory == false}).isEmpty {
                     List {
                         headerCardView
                         if let _ = appState.theMostExpensiveSubscription {
@@ -45,7 +43,6 @@ struct InfoView: View {
             } content: {
                 NewSubscriptionView(addedNewSubscription: .constant(false))
             }
-
         }
     }
     
@@ -57,7 +54,7 @@ struct InfoView: View {
                         .font(.body15)
                         .foregroundColor(.primary.opacity(0.7))
                     Spacer()
-                    Text(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: selectedCurrency)))
+                    Text(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: appState.selectedCurrency)))
                         .font(.body15)
                         .fontWeight(.bold)
                         .foregroundColor(.red)
@@ -97,7 +94,7 @@ struct InfoView: View {
                         .font(.body15)
                         .fontWeight(.bold)
                     Spacer()
-                    Text(mostExpensiveSub.price.formatted(.currency(code: selectedCurrency)))
+                    Text(mostExpensiveSub.price.formatted(.currency(code: appState.selectedCurrency)))
                         .font(.body15)
                         .fontWeight(.bold)
                         .foregroundColor(.red)
@@ -130,7 +127,7 @@ struct InfoView: View {
                                 Text(sub.name)
                                     .font(.body14)
                                 Spacer()
-                                Text(sub.price.formatted(.currency(code: selectedCurrency)))
+                                Text(sub.price.formatted(.currency(code: appState.selectedCurrency)))
                                     .font(.body14)
                                     .fontWeight(.medium)
                             }
@@ -143,10 +140,10 @@ struct InfoView: View {
                                     .foregroundColor(.primary.opacity(0.7))
                                     .fontWeight(.light)
                                     .font(.body15)
-                                Image(systemName: "bell")
+                                Image(systemName: sub.notificationOn ? "bell.fill" : "bell")
                                     .font(.body15)
                                     .fontWeight(.medium)
-                                    .foregroundColor(sub.notificationOn ? .blue : .secondary)
+                                    .foregroundColor(sub.notificationOn ? .indigo : .secondary)
                             }
                         }
                         .padding()
@@ -178,7 +175,7 @@ struct InfoView: View {
                     ForEach(appState.subscriptions.sorted(by: {$0.montlyPrice > $1.montlyPrice})) { sub in
                         BarMark(
                             x: .value("Name", sub.name),
-                            y: .value("Total", sub.montlyPrice.formatted(.currency(code: selectedCurrency)))
+                            y: .value("Total", sub.montlyPrice.formatted(.currency(code: appState.selectedCurrency)))
                         )
                         .foregroundStyle(.orange)
                     }
