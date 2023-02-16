@@ -52,7 +52,7 @@ struct SubscriptionDetailsView: View {
                 }
                 if !subcription.isFault {
                     Section {
-                        DatePicker("Start Date", selection: $subcription.startDate, displayedComponents: [.date])
+                        DatePicker("Start date", selection: $subcription.startDate, displayedComponents: [.date])
                     } header: {
                         Text("Subscription dates")
                     }
@@ -83,7 +83,7 @@ struct SubscriptionDetailsView: View {
                 }
             }
             if showSuccessDeletedView {
-                SuccessView(title: "SubscriptionDeleted", message: "", showSelf: $showSuccessDeletedView)
+                SuccessView(title: "Subscription Deleted", message: "", showSelf: $showSuccessDeletedView)
             }
             if showLoader {
                 SpinnerView()

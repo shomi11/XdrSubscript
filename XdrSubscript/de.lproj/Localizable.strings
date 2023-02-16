@@ -1,0 +1,82 @@
+/* 
+  Localizable.strings
+  XdrSubscript
+
+  Created by Malovic, Milos on 14.2.23..
+  
+*/
+
+"Subscription" = "Abonnement";
+"Subscriptions" = "Abonnements";
+"Info" = "Die Info";
+"History" = "Geschichte";
+"Settings" = "Einstellungen";
+"Hello" = "Hallo";
+"On the way next" = "Unterwegs weiter";
+"Subscription Name" = "Abonnementname";
+"Choose your currency code" = "Wählen Sie Ihren Währungscode";
+"Set Maximum Monthly Spending" = "Legen Sie die maximalen monatlichen Ausgaben fest";
+"Username" = "Nutzername";
+"Overview" = "Überblick";
+"Confirm" = "Bestätigen";
+"If you like to track how much you are above or bellow spending limit." = "Wenn Sie verfolgen möchten, wie viel Sie über oder unter dem Ausgabenlimit liegen.";
+"Currency" = "Währung";
+"Subscriptions Info" = "Informationen zu Abonnements";
+"Total subscription's price:" = "Gesamtpreis des Abonnements:";
+"Total number of subscriptions's:" = "Gesamtzahl der Abonnements:";
+"The most expensive(per month)" = "Das teuerste (pro Monat)";
+"Notification on" = "Benachrichtigung an";
+"Notification off" = "Benachrichtigung aus";
+"Recents" = "Letzte";
+"Price Chart" = "Preisdiagramm";
+"Name" = "Name";
+"Total" = "Gesamt";
+"By Price(monthly)" = "Nach Preis (monatlich)";
+"Total paid per subcription" = "Insgesamt pro Abonnement bezahlt";
+"Total per subcription" = "Insgesamt pro Abonnement";
+"Total number of months subcribed" = "Gesamtzahl der abonnierten Monate";
+"Number of months subcribed" = "Anzahl der abonnierten Monate";
+"Delete All Subscriptions from history?" = "Alle Abonnements aus dem Verlauf löschen?";
+"Delete" = "Löschen";
+"Move to active" = "Wechseln Sie zu aktiv";
+"Nothing in history yet." = "Noch nichts in der Geschichte.";
+"You can move your subscriptions to history from subscription details screen." = "Sie können Ihre Abonnements vom Bildschirm mit den Abonnementdetails in den Verlauf verschieben.";
+"Delete all" = "Alles löschen";
+"Are you sure?" = "Bist du dir sicher?";
+"Was Subscribed to:" = "Wurde abonniert:";
+"Start date:" = "Startdatum:";
+"Moved to history:" = "In die Geschichte verschoben:";
+"Total spent:" = "Gesamtausgaben:";
+"Subscribed to:" = "Abonniert zu:";
+"Subscription Provider" = "Abonnementanbieter";
+"$ Subscription Price" = "$ Einschreibegebühr";
+"Subscription Model" = "Abonnementmodell";
+"Start Date" = "Startdatum";
+"Notification" = "Benachrichtigung";
+"Notification on the day of subscription should be billed" = "Die Benachrichtigung am Tag des Abonnements sollte in Rechnung gestellt werden";
+"This is used for displaying subscription provider logo." = "Dies wird zum Anzeigen des Logos des Abonnementanbieters verwendet.";
+"Provided by" = "Zur Verfügung gestellt von";
+"New Subscription" = "Neues Abonnement";
+"Save" = "Speichern";
+"Subscription dates" = "Abonnementdaten";
+"Subscription Deleted" = "Abonnement gelöscht";
+"Update" = "Aktualisieren";
+"Cancel" = "Stornieren";
+"Subcription Provider url" = "URL des Abonnementanbieters";
+"Hallo, %@" = "Hallo, %@";
+"%@, you are %.2lf bellow max" = "%@, du bist %.2lf unten max";
+"You are %.2lf bellow max" = "Du bist %.2lf unten max";
+"%@, you are %.2lf above max" = "%@, du bist %.2lf über max";
+"You are %.2lf above max" = "Du bist %.2lf über max";
+"Monthly subcriptions total: %.2lf" = "Monatliches Abonnement insgesamt: %.2lf";
+"Yearly Subcriptions total: %.2lf" = "Jahresabonnement insgesamt: %.2lf";
+"All subcription per month: %.2lf" = "Alle Abonnements pro Monat: %.2lf";
+"%@ added to your subsription's." = "%@ Ihrem Abonnement hinzugefügt.";
+"Subscription Price %@" = "Einschreibegebühr %@";
+"Delete %@" = "Löschen %@";
+"Delete %@?" = "Löschen %@?";
+
+
+
+
+

@@ -1,0 +1,82 @@
+/* 
+  Localizable.strings
+  XdrSubscript
+
+  Created by Malovic, Milos on 14.2.23..
+  
+*/
+
+"Subscription" = "Pretplata";
+"Subscriptions" = "Pretplate";
+"Info" = "Info";
+"History" = "Istorija";
+"Settings" = "Podešavanja";
+"Hello" = "Zdravo";
+"On the way next" = "Nadolazeće";
+"Subscription Name" = "Ime Pretplate";
+"Choose your currency code" = "Izaberi šifru valute";
+"Set Maximum Monthly Spending" = "Podesi maksimalnu željenu potrošnju";
+"Username" = "Korisiničko ime";
+"Overview" = "Pregled";
+"Confirm" = "Potvrdi";
+"If you like to track how much you are above or bellow spending limit." = "Ako želite da pratite koliko ste iznad ili ispod granice potrošnje.";
+"Currency" = "Valuta";
+"Subscriptions Info" = "Pretplate Info";
+"Total subscription's price:" = "Ukupna cena pretplata:";
+"Total number of subscriptions's:" = "Ukupni broj pretplata";
+"The most expensive(per month)" = "Najskuplja pretplata(po mesecu)";
+"Notification on" = "Notifikacije uključene";
+"Nofication off" = "Notifikacije isključene";
+"Recents" = "Poslednje";
+"Price Chart" = "Grafikon Cena";
+"Name" = "Ime";
+"Total" = "Ukupno";
+"By Price(monthly)" = "Po Ceni(mesečno)";
+"Total paid per subcription" = "Ukupno plaćeno po pretplati";
+"Total per subcription" = "Ukupno po pretplati";
+"Total number of months subcribed" = "Ukupan broj pretplaćenih meseci";
+"Number of months subcribed" = "Broj pretplaćenih meseci";
+"Delete All Subscriptions from history?" = "Izbrisati sve pretplate iz istorije?";
+"Delete" = "Obriši";
+"Move to active" = "Pomeri u aktivno";
+"Nothing in history yet." = "Još uvek nemaš ništa u istoriji.";
+"You can move your subscriptions to history from subscription details screen." = "Možete da premestite svoje pretplate u istoriju sa ekrana detalji pretplate.";
+"Delete all" = "Obriši sve";
+"Are you sure?" = "Da li ste sigurni?";
+"Was Subscribed to:" = "Bio pretplaćen na:";
+"Start date:" = "Startni datum:";
+"Moved to history:" = "Pomereno u istoriju:";
+"Total spent:" = "Ukupno potrošeno:";
+"Subscribed to:" = "Pretplaćen na:";
+"Subscription Provider" = "Provajder pretplate";
+"$ Subscription Price" = "Cena Pretplate";
+"Subscription Model" = "Model Pretplate";
+"Start Date" = "Početak pretplate";
+"Notification" = "Notifikacije";
+"Notification on the day of subscription should be billed" = "Obaveštenje na dan pretplate treba da bude naplaćen";
+"This is used for displaying subscription provider logo." = "Koristi se kako bi vam pokazali sliku provajdera.";
+"Provided by" = "Omogućeno od";
+"New Subscription" = "Nova Pretplata";
+"Save" = "Save";
+"Subscription dates" = "Datumi pretplata";
+"Subscription Deleted" = "Pretplata Obrisana";
+"Update" = "Ažuriraj";
+"Cancel" = "Izadji";
+"Subcription Provider url" = "Url provajdera preptlate";
+"Hello, %@" = "Zdravo, %@";
+"%@, you are %.2lf bellow max" = "%@, ti si %.2lf ispod maksimuma";
+"You are %.2lf bellow max" = "Ti si %.2lf ispod maksimuma";
+"%@, you are %.2lf above max" = "%@, you are %.2lf iznad maksimuma";
+"You are %.2lf above max" = "You are %.2lf iznad maksimuma";
+"Monthly subcriptions total: %.2lf" = "Mesečne pretplate total: %.2lf";
+"Yearly Subcriptions total: %.2lf" = "Godišnje pretplate total: %.2lf";
+"All subcription per month: %.2lf" = "Sve pretplate mesečno: %.2lf";
+"%@ added to your subsription's." = "%@ dodato u tvoje pretplate.";
+"Subscription Price %@" = "Cena Pretplate %@";
+"Delete %@" = "Obriši %@";
+"Delete %@?" = "Obriši %@?";
+
+
+
+
+

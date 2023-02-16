@@ -35,8 +35,8 @@ struct MainTabView: View {
                     Label("Settings", systemImage: "gear")
                 }
         }
-        .navigationTitle("Hello")
         .onAppear {
+           // UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                 if success {
                     print("All set for notification")

@@ -13,12 +13,15 @@ import WidgetKit
 
 struct SubscriptionListView: View {
     
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject private var appState: AppState
     @State private var showNewSubscriptionView: Bool = false
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
     @State private var showSpendingDetailsFullCard: Bool = false
+    @State private var selectedSub: Subscription?
     @State private var path: [Subscription] = []
     
     @State var orderedBy = UserDefaults.standard.value(forKey: "sorted") as? SortedBy.RawValue ?? SortedBy.newest.rawValue
@@ -29,9 +32,9 @@ struct SubscriptionListView: View {
                case SortedBy.byName.rawValue:
                    return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.name < $1.name})
                case SortedBy.newest.rawValue:
-                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.startDate < $1.startDate})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.dateCreated > $1.dateCreated})
                case SortedBy.oldest.rawValue:
-                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.startDate > $1.startDate})
+                   return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.dateCreated < $1.dateCreated})
                case SortedBy.byPriceAscending.rawValue:
                    return appState.subscriptions.filter({$0.movedToHistory == false}).sorted(by: {$0.price > $1.price})
                case SortedBy.byPriceDescending.rawValue:
@@ -63,22 +66,11 @@ struct SubscriptionListView: View {
                             if appState.maxSpending != 0.0 {
                                 maxSpendingView
                             }
-                            Section {
-                                ForEach(filteredSubscriptions, id: \.id) { sub in
-                                    NavigationLink(value: sub) {
-                                        cellForSub(sub: sub)
-                                    }
-                                }
-                            } header: {
-                                Text("Subscriptions".uppercased())
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .fontDesign(.rounded)
-                                    .foregroundColor(.primary)
+                            if horizontalSizeClass == .regular && verticalSizeClass == .regular {
+                                iPadOSsectionListView
+                            } else {
+                                iOSsectionListView
                             }
-                            .listRowSeparator(.hidden)
-                            .listSectionSeparator(.hidden)
-                            .listRowBackground(Color.clear)
                         }
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)
@@ -88,11 +80,11 @@ struct SubscriptionListView: View {
                     }
                 }
             }
-            .navigationTitle(appState.userName.isEmpty ? "Hi User" : "Hi, \(appState.userName)")
+            .navigationTitle(appState.userName.isEmpty ? "Hello" : "Hello, \(appState.userName)")
             .navigationDestination(for: Subscription.self, destination: { sub in
                 SubscriptionDetailsView(subcription: sub)
             })
-            .searchable(text: $searchTxt, prompt: "Subcription Name")
+            .searchable(text: $searchTxt, prompt: "Subscription Name")
             .onContinueUserActivity(CSSearchableItemActionType, perform: loadSpotLightSubscription)
             .onOpenURL(perform: { url in
                 showNewSubscriptionView = true
@@ -127,7 +119,7 @@ struct SubscriptionListView: View {
             .onChange(of: orderedBy) { newValue in
                 UserDefaults.standard.set(newValue, forKey: "sorted")
             }
-            .sheet(isPresented: $showNewSubscriptionView, onDismiss: {
+            .fullScreenCover(isPresented: $showNewSubscriptionView, onDismiss: {
                 if addedNewSubscription {
                     addedNewSubscription = false
                     Task {
@@ -139,6 +131,14 @@ struct SubscriptionListView: View {
                     addedNewSubscription: $addedNewSubscription
                 )
             })
+            .sheet(item: $selectedSub, onDismiss: {
+                selectedSub = nil
+            }, content: { sub in
+                NavigationStack {
+                    SubscriptionDetailsView(subcription: sub)
+                        .navigationTitle(sub.name)
+                }
+            })
             .task {
                 let status = await accountStatus()
                 if status == .available {
@@ -146,6 +146,59 @@ struct SubscriptionListView: View {
                 }
             }
         }
+    }
+    
+    private var iPadOSsectionListView: some View {
+        Section {
+            let columns = [
+                GridItem(.adaptive(minimum: 300, maximum: 400))
+            ]
+            LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
+                ForEach(filteredSubscriptions, id: \.id) { sub in
+                    Button {
+                        selectedSub = sub
+                    } label: {
+                        cellForSub(sub: sub)
+                    }
+                }
+            }
+        } header: {
+            Text("Subscriptions".uppercased())
+                .font(.title3)
+                .fontWeight(.semibold)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+        }
+        .listRowSeparator(.hidden)
+        .listSectionSeparator(.hidden)
+        .listRowBackground(Color.clear)
+    }
+    
+    private var iOSsectionListView: some View {
+        Section {
+            ForEach(filteredSubscriptions, id: \.id) { sub in
+                if horizontalSizeClass == .regular && verticalSizeClass == .regular {
+                    Button {
+                        selectedSub = sub
+                    } label: {
+                        cellForSub(sub: sub)
+                    }
+                } else {
+                    NavigationLink(value: sub) {
+                        cellForSub(sub: sub)
+                    }
+                }
+            }
+        } header: {
+            Text("Subscriptions".uppercased())
+                .font(.title3)
+                .fontWeight(.semibold)
+                .fontDesign(.rounded)
+                .foregroundColor(.primary)
+        }
+        .listRowSeparator(.hidden)
+        .listSectionSeparator(.hidden)
+        .listRowBackground(Color.clear)
     }
     
     func accountStatus() async -> CKAccountStatus {
@@ -201,6 +254,7 @@ struct SubscriptionListView: View {
                             total: Float(appState.maxSpending)
                         )
                             .progressViewStyle(.linear)
+
                         if appState.maxSpending > appState.totalSubscriptionsPriceMonthly {
                             let stillHave = appState.totalMonthlyAndYearlyPerMonth - appState.maxSpending
                             Text(!appState.userName.isEmpty ? "\(appState.userName), you are \(stillHave.formatted(.currency(code: appState.selectedCurrency))) bellow max" : "You are \(stillHave.formatted(.currency(code: appState.selectedCurrency))) bellow max")
@@ -219,13 +273,14 @@ struct SubscriptionListView: View {
                         Text("Monthly subcriptions total: \(appState.totalSubscriptionsPriceMonthly.formatted(.currency(code: appState.selectedCurrency)))")
                             .font(.caption)
                             .foregroundColor(.primary.opacity(0.8))
-                        Text("Yearly Subcriptions Total: \(appState.totalSubscriptionsPriceYearly.formatted(.currency(code: appState.selectedCurrency)))")
+                        Text("Yearly Subcriptions total: \(appState.totalSubscriptionsPriceYearly.formatted(.currency(code: appState.selectedCurrency)))")
                             .font(.caption)
                             .foregroundColor(.primary.opacity(0.8))
                         Text("All subcription per month: \(appState.totalMonthlyAndYearlyPerMonth.formatted(.currency(code: appState.selectedCurrency)))")
                             .font(.caption)
                             .foregroundColor(.primary.opacity(0.8))
                     }
+                    .transition(.scale)
                 }
             }
             .listRowBackground(Color.clear)
@@ -250,7 +305,7 @@ struct SubscriptionListView: View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(alignment: .center, spacing: 16) {
-                    ForEach(appState.nextSub() ?? [], id: \.id) { tupple in
+                    ForEach(appState.nextSub()?.filter({$0.sub.model == .monthly}) ?? [], id: \.id) { tupple in
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(alignment: .center) {
                                 Text(tupple.sub.name)

@@ -26,6 +26,9 @@
 		C0291481292EE0CF00972886 /* GroupedByMonthSubscriptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291480292EE0CF00972886 /* GroupedByMonthSubscriptions.swift */; };
 		C0291483292F695B00972886 /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291482292F695B00972886 /* CurrencyModel.swift */; };
 		C0291485292F84F700972886 /* SortedBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291484292F84F700972886 /* SortedBy.swift */; };
+		C0292CE3299BED2100930640 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0292CE6299BED2100930640 /* Localizable.strings */; };
+		C0292CE4299BED2100930640 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0292CE6299BED2100930640 /* Localizable.strings */; };
+		C0292CEA299D29E600930640 /* DynamicIslandSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0292CE9299D29E600930640 /* DynamicIslandSuccessView.swift */; };
 		C04F5EB4298A7E8300D423DE /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F5EB3298A7E8300D423DE /* BackgroundView.swift */; };
 		C054F53F298ACCF900122A16 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C054F53E298ACCF900122A16 /* DateExt.swift */; };
 		C054F543298AD1DD00122A16 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C054F542298AD1DD00122A16 /* LoadingState.swift */; };
@@ -37,6 +40,7 @@
 		C088A67C298B3D190055B3D9 /* ImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088A67B298B3D190055B3D9 /* ImageExt.swift */; };
 		C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */; };
 		C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */; };
+		C0DBF375299B8ED1003F6454 /* SubscriptionListiPadOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DBF374299B8ED1003F6454 /* SubscriptionListiPadOS.swift */; };
 		C0F5D245298C18E70053E0AB /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5D244298C18E70053E0AB /* StringExt.swift */; };
 		C0F5D247298C7D150053E0AB /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F5D246298C7D150053E0AB /* HistoryView.swift */; };
 		C0F5D250298F02D60053E0AB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F5D24F298F02D60053E0AB /* WidgetKit.framework */; };
@@ -106,6 +110,10 @@
 		C0291480292EE0CF00972886 /* GroupedByMonthSubscriptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedByMonthSubscriptions.swift; sourceTree = "<group>"; };
 		C0291482292F695B00972886 /* CurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
 		C0291484292F84F700972886 /* SortedBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedBy.swift; sourceTree = "<group>"; };
+		C0292CE5299BED2100930640 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C0292CE7299BEFA100930640 /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C0292CE8299D231800930640 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C0292CE9299D29E600930640 /* DynamicIslandSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicIslandSuccessView.swift; sourceTree = "<group>"; };
 		C04F5EB3298A7E8300D423DE /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		C054F53E298ACCF900122A16 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		C054F542298AD1DD00122A16 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
@@ -117,6 +125,7 @@
 		C088A67B298B3D190055B3D9 /* ImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExt.swift; sourceTree = "<group>"; };
 		C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataClass.swift"; path = "XdrSubscript/Subscription+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataProperties.swift"; path = "XdrSubscript/Subscription+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C0DBF374299B8ED1003F6454 /* SubscriptionListiPadOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionListiPadOS.swift; sourceTree = "<group>"; };
 		C0F5D244298C18E70053E0AB /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		C0F5D246298C7D150053E0AB /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		C0F5D24E298F02D60053E0AB /* XdrSubscriptWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = XdrSubscriptWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,8 +183,9 @@
 		C02385C92927BB76007F9A79 /* XdrSubscript */ = {
 			isa = PBXGroup;
 			children = (
-				C0238608292A6ABB007F9A79 /* Info.plist */,
 				C0238609292AEC65007F9A79 /* XdrSubscript.entitlements */,
+				C0238608292A6ABB007F9A79 /* Info.plist */,
+				C0DBF373299B8E9B003F6454 /* iPadOS */,
 				C088A67F298BB0D30055B3D9 /* SharedPlatform */,
 				C088A674298B396C0055B3D9 /* iOS */,
 				C02385FD29284192007F9A79 /* Extensions */,
@@ -187,6 +197,7 @@
 				C0763E852983D85D00529340 /* Color.xcassets */,
 				C02385D02927BB77007F9A79 /* Preview Content */,
 				C00217A7298035C400ECFBA6 /* SubscriptionXdr.xcdatamodeld */,
+				C0292CE6299BED2100930640 /* Localizable.strings */,
 			);
 			path = XdrSubscript;
 			sourceTree = "<group>";
@@ -225,9 +236,10 @@
 				C02385E62927E346007F9A79 /* InfoView.swift */,
 				C02385E82927E424007F9A79 /* SettingsView.swift */,
 				C05B216E292E565D0086C8FA /* EmptyView.swift */,
-				C05B2170292E611C0086C8FA /* SuccessView.swift */,
 				C04F5EB3298A7E8300D423DE /* BackgroundView.swift */,
 				C0F5D246298C7D150053E0AB /* HistoryView.swift */,
+				C05B2170292E611C0086C8FA /* SuccessView.swift */,
+				C0292CE9299D29E600930640 /* DynamicIslandSuccessView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -280,6 +292,14 @@
 			children = (
 			);
 			path = models;
+			sourceTree = "<group>";
+		};
+		C0DBF373299B8E9B003F6454 /* iPadOS */ = {
+			isa = PBXGroup;
+			children = (
+				C0DBF374299B8ED1003F6454 /* SubscriptionListiPadOS.swift */,
+			);
+			path = iPadOS;
 			sourceTree = "<group>";
 		};
 		C0F0A77129389E35001B4737 /* Frameworks */ = {
@@ -368,6 +388,8 @@
 			knownRegions = (
 				en,
 				Base,
+				sr,
+				de,
 			);
 			mainGroup = C02385BE2927BB76007F9A79;
 			packageReferences = (
@@ -388,6 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C02385D22927BB77007F9A79 /* Preview Assets.xcassets in Resources */,
+				C0292CE3299BED2100930640 /* Localizable.strings in Resources */,
 				C0763E862983D85D00529340 /* Color.xcassets in Resources */,
 				C02385CF2927BB77007F9A79 /* Assets.xcassets in Resources */,
 			);
@@ -398,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0F5D259298F02D80053E0AB /* Assets.xcassets in Resources */,
+				C0292CE4299BED2100930640 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +434,7 @@
 			files = (
 				C02385EF2927FAA5007F9A79 /* AppDelegate.swift in Sources */,
 				C0291485292F84F700972886 /* SortedBy.swift in Sources */,
+				C0DBF375299B8ED1003F6454 /* SubscriptionListiPadOS.swift in Sources */,
 				C054F53F298ACCF900122A16 /* DateExt.swift in Sources */,
 				C0F5D247298C7D150053E0AB /* HistoryView.swift in Sources */,
 				C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */,
@@ -434,6 +459,7 @@
 				C04F5EB4298A7E8300D423DE /* BackgroundView.swift in Sources */,
 				C02385E32927CD48007F9A79 /* SubscriptionDetailsView.swift in Sources */,
 				C0291481292EE0CF00972886 /* GroupedByMonthSubscriptions.swift in Sources */,
+				C0292CEA299D29E600930640 /* DynamicIslandSuccessView.swift in Sources */,
 				C02385DB2927BE42007F9A79 /* MainTabView.swift in Sources */,
 				C065A5F9297EDC4400D7FC9D /* FontExt.swift in Sources */,
 				C0238600292841B7007F9A79 /* ColorExt.swift in Sources */,
@@ -471,11 +497,25 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		C0292CE6299BED2100930640 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0292CE5299BED2100930640 /* en */,
+				C0292CE7299BEFA100930640 /* sr */,
+				C0292CE8299D231800930640 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		C02385D32927BB77007F9A79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -536,6 +576,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

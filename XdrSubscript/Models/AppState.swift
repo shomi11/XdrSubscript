@@ -14,7 +14,7 @@ class AppState: ObservableObject {
     @Published var subscriptions: [Subscription] = []
     @Published var maxSpending = UserDefaults(suiteName: .accessGroup)?.value(forKey: "max_spending") as? Double ?? 0.0
     @Published var userName = UserDefaults(suiteName: .accessGroup)?.value(forKey: "userName") as? String ?? ""
-    @Published var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? "USD"
+    @Published var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? (Locale.current.currencySymbol ?? "USD")
     @Published var loadingState: LoadingState = .loading
     
     func nextSub() -> [DaysLeft]? {
@@ -23,7 +23,7 @@ class AppState: ObservableObject {
         
         if !subscriptions.isEmpty {
             for subscription in subscriptions.filter({$0.movedToHistory == false}) {
-                let comp = Calendar.current.dateComponents([.day], from: subscription.startDate)
+                let comp = Calendar.current.dateComponents([.month, .day], from: subscription.startDate)
               
                 let newDay = Calendar.current.date(from: comp)
                 let dayInMonth = newDay!.day
@@ -34,18 +34,21 @@ class AppState: ObservableObject {
                 
                 var nextComp = DateComponents()
                 nextComp.day = dayInMonth
+                nextComp.month = Calendar.current.component(.month, from: now)
                 nextComp.year = c
 
                 let nowNextMonthDay = Calendar.current.date(from: nextComp)
+                print("\(subscription.name) Now Next month day : \(String(describing: nowNextMonthDay))")
                
                 let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: nowNextMonthDay!)
-                
+                print("\(subscription.name) Next month day: \(String(describing: nextMonth))")
+           
                 let dayLeft = Calendar.current.numberOf24DaysBetween(.now, and: nextMonth!)
                 let d = DaysLeft.init(sub: subscription, daysLeft: dayLeft)
                 daysLeftSubs.append(d)
             }
         }
-        return daysLeftSubs
+        return daysLeftSubs.sorted(by: {$0.daysLeft < $1.daysLeft})
     }
     
     
@@ -107,8 +110,7 @@ class AppState: ObservableObject {
 
 extension Calendar {
     func numberOf24DaysBetween(_ from: Date, and to: Date) -> Int {
-        let numberOfDays = dateComponents([.day], from: from, to: to)
-        
+        let numberOfDays = dateComponents([.month, .day], from: from, to: to)
         return numberOfDays.day! + 1
     }
 }

@@ -72,7 +72,7 @@ struct SettingsView: View {
         } header: {
             Text("Set Maximum Monthly Spending")
         } footer: {
-            Text("If you like to track how much you are above or bellow spending limit .")
+            Text("If you like to track how much you are above or bellow spending limit.")
         }
     }
     

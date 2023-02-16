@@ -12,6 +12,8 @@ import CloudKit
 
 struct SplashView: View {
     
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var appState: AppState
     @State private var showMain: Bool = false
@@ -36,7 +38,7 @@ struct SplashView: View {
                 .fontWeight(.heavy)
                 .font(.title3)
             }
-            .padding(.horizontal)
+            .padding()
         }
         .ignoresSafeArea(.all)
         .onAppear {
@@ -47,7 +49,11 @@ struct SplashView: View {
         }
         #if os(iOS)
         .fullScreenCover(isPresented: $showMain) {
-            MainTabView()
+            if horizontalSizeClass == .regular && verticalSizeClass == .regular {
+                SubscriptionListiPadOS()
+            } else {
+                MainTabView()
+            }
         }
         #endif
         .onChange(of: hasTimeElapsed) { newValue in

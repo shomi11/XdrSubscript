@@ -1,0 +1,82 @@
+/* 
+  Localizable.strings
+  XdrSubscript
+
+  Created by Malovic, Milos on 14.2.23..
+  
+*/
+
+"Subscription" = "Subscription";
+"Subscriptions" = "Subscriptions";
+"Info" = "Info";
+"History" = "History";
+"Settings" = "Settings";
+"Hello" = "Hello";
+"On the way next" = "On the way next";
+"Subscription Name" = "Subscription Name";
+"Choose your currency code" = "Choose your currency code";
+"Set Maximum Monthly Spending" = "Set Maximum Monthly Spending";
+"Username" = "Username";
+"Overview" = "Overview";
+"Confirm" = "Confirm";
+"If you like to track how much you are above or bellow spending limit." = "If you like to track how much you are above or bellow spending limit.";
+"Currency" = "Currency";
+"Subscriptions Info" = "Subscriptions Info";
+"Total subscription's price:" = "Total subscription's price:";
+"Total number of subscriptions's:" = "Total number of subscriptions's:";
+"The most expensive(per month)" = "The most expensive(per month)";
+"Notification on" = "Notification on";
+"Notification off" = "Notification off";
+"Recents" = "Recents";
+"Price Chart" = "Price Chart";
+"Name" = "Name";
+"Total" = "Total";
+"By Price(monthly)" = "By Price(monthly)";
+"Total paid per subcription" = "Total paid per subcription";
+"Total per subcription" = "Total per subcription";
+"Total number of months subcribed" = "Total number of months subcribed";
+"Number of months subcribed" = "Number of months subcribed";
+"Delete All Subscriptions from history?" = "Delete All Subscriptions from history?";
+"Delete" = "Delete";
+"Move to active" = "Move to active";
+"Nothing in history yet." = "Nothing in history yet.";
+"You can move your subscriptions to history from subscription details screen." = "You can move your subscriptions to history from subscription details screen.";
+"Delete all" = "Delete all";
+"Are you sure?" = "Are you sure?";
+"Was Subscribed to:" = "Was Subscribed to:";
+"Start date:" = "Start date:";
+"Moved to history:" = "Moved to history:";
+"Total spent:" = "Total spent:";
+"Subscribed to:" = "Subscribed to:";
+"Subscription Provider" = "Subscription Provider";
+"$ Subscription Price" = "$ Subscription Price";
+"Subscription Model" = "Subscription Model";
+"Start Date" = "Start Date";
+"Notification" = "Notification";
+"Notification on the day of subscription should be billed" = "Notification on the day of subscription should be billed";
+"This is used for displaying subscription provider logo." = "This is used for displaying subscription provider logo.";
+"Provided by" = "Provided by";
+"New Subscription" = "New Subscription";
+"Save" = "Save";
+"Subscription dates" = "Subscription dates";
+"Subscription Deleted" = "Subscription Deleted";
+"Update" = "Update";
+"Cancel" = "Cancel";
+"Subcription Provider url" = "Subcription Provider url";
+"Hello, %@" = "Hello, %@";
+"%@, you are %.2lf bellow max" = "%@, you are %.2lf bellow max";
+"You are %.2lf bellow max" = "You are %.2lf bellow max";
+"%@, you are %.2lf above max" = "%@, you are %.2lf above max";
+"You are %.2lf above max" = "You are %.2lf above max";
+"Monthly subcriptions total: %.2lf" = "Monthly subcriptions total: %.2lf";
+"Yearly Subcriptions total: %.2lf" = "Yearly Subcriptions total: %.2lf";
+"All subcription per month: %.2lf" = "All subcription per month: %.2lf";
+"%@ added to your subsription's." = "%@ added to your subsription's.";
+"Subscription Price %@" = "Subscription Price %@";
+"Delete %@" = "Delete %@";
+"Delete %@?" = "Delete %@?";
+
+
+
+
+

@@ -75,7 +75,7 @@ struct XdrSubscriptWidgetEntryView : View {
     var body: some View {
         ZStack {
             Color.secondaryBackgroundColor.opacity(0.5)
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 8) {
                 let subscriptions = entry.subscriptions.filter({$0.movedToHistory == false})
                 let dayLeftSubscriptions = nextSub(subscriptions: subscriptions) ?? []
                 let dayLeftSub = dayLeftSubscriptions.sorted(by: {$0.daysLeft < $1.daysLeft}).first
@@ -110,8 +110,7 @@ struct XdrSubscriptWidgetEntryView : View {
                         }
                     }
                     Text(sub.price.formatted(.currency(code: selectedCurrency)))
-                        .font(.caption)
-                        .fontWeight(.medium)
+                        .fontWeight(.semibold)
                         .foregroundColor(.red)
                     if let dayLeftSub = dayLeftSub {
                         Text("\(dayLeftSub.daysLeft) day(s) left")
@@ -139,13 +138,13 @@ struct XdrSubscriptWidgetEntryView : View {
 }
 
 extension XdrSubscriptWidgetEntryView {
+    
     func nextSub(subscriptions: [Subscription]) -> [DaysLeft]? {
-        
         var daysLeftSubs: [DaysLeft] = []
         
         if !subscriptions.isEmpty {
             for subscription in subscriptions.filter({$0.movedToHistory == false}) {
-                let comp = Calendar.current.dateComponents([.day], from: subscription.startDate)
+                let comp = Calendar.current.dateComponents([.month, .day], from: subscription.startDate)
               
                 let newDay = Calendar.current.date(from: comp)
                 let dayInMonth = newDay!.day
@@ -156,18 +155,21 @@ extension XdrSubscriptWidgetEntryView {
                 
                 var nextComp = DateComponents()
                 nextComp.day = dayInMonth
+                nextComp.month = Calendar.current.component(.month, from: now)
                 nextComp.year = c
 
                 let nowNextMonthDay = Calendar.current.date(from: nextComp)
+                print("\(subscription.name) Now Next month day : \(String(describing: nowNextMonthDay))")
                
                 let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: nowNextMonthDay!)
-                
+                print("\(subscription.name) Next month day: \(String(describing: nextMonth))")
+           
                 let dayLeft = Calendar.current.numberOf24DaysBetween(.now, and: nextMonth!)
                 let d = DaysLeft.init(sub: subscription, daysLeft: dayLeft)
                 daysLeftSubs.append(d)
             }
         }
-        return daysLeftSubs
+        return daysLeftSubs.sorted(by: {$0.daysLeft < $1.daysLeft})
     }
 }
 
@@ -178,49 +180,53 @@ struct RecentSubscriptionWidgetView: View {
     var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? "USD"
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            let subscriptions = entry.subscriptions.filter({$0.movedToHistory == false}).prefix(3)
-            let subs = Array(subscriptions)
-            HStack(alignment: .top, spacing: 8) {
-                ForEach(subs, id: \.id) { sub in
-                    VStack(alignment: .leading, spacing: 8) {
-                        if let url = URL(string: "https://logo.clearbit.com/\(sub.imageUrl)"), let imageData = try? Data(contentsOf: url),
-                           let uiImage = UIImage(data: imageData) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .frame(width: 25, height: 25, alignment: .center)
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        }
-                        else {
-                            if let letter = sub.name.first {
-                                ZStack(alignment: .center) {
-                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                        .fill(Color.blue.opacity(0.4))
-                                        .frame(width: 25, height: 25, alignment: .center)
-                                    Text(String(letter))
-                                        .font(.title2)
-                                        .bold()
+       // GeometryReader { geo in
+            VStack(alignment: .leading, spacing: 8) {
+                let subscriptions = entry.subscriptions.filter({$0.movedToHistory == false}).prefix(3)
+                let subs = Array(subscriptions)
+                HStack(alignment: .top, spacing: 8) {
+                    ForEach(subs, id: \.id) { sub in
+                        VStack(alignment: .leading, spacing: 8) {
+                            if let url = URL(string: "https://logo.clearbit.com/\(sub.imageUrl)"), let imageData = try? Data(contentsOf: url),
+                               let uiImage = UIImage(data: imageData) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .frame(width: 25, height: 25, alignment: .center)
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            }
+                            else {
+                                if let letter = sub.name.first {
+                                    ZStack(alignment: .center) {
+                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                            .fill(Color.blue.opacity(0.4))
+                                            .frame(width: 25, height: 25, alignment: .center)
+                                        Text(String(letter))
+                                            .font(.title2)
+                                            .bold()
+                                    }
                                 }
                             }
+                            Text(sub.name)
+                                .fontWeight(.semibold)
+                            Text(sub.price.formatted(.currency(code: selectedCurrency)))
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(.red)
+                            Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
+                                .font(.caption2)
+                                .foregroundColor(.primary.opacity(0.7))
                         }
-                        Text(sub.name)
-                            .fontWeight(.semibold)
-                        Text(sub.price.formatted(.currency(code: selectedCurrency)))
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundColor(.red)
-                        Text(DateFormatter.localizedString(from: sub.startDate, dateStyle: .medium, timeStyle: .none))
-                            .font(.caption2)
-                            .foregroundColor(.primary.opacity(0.7))
+                        .frame(maxWidth: .infinity ,maxHeight: .infinity)
+                        .padding()
+                        .background(Color.secondaryBackgroundColor.opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
-                    .padding()
-                    .background(Color.secondaryBackgroundColor.opacity(0.5))
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    Spacer()
                 }
+                .padding(4)
             }
-            .padding(4)
-        }
+       // }
     }
 }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 import UserNotifications
 import CloudKit
+import BackgroundTasks
 
 struct NewSubscriptionView: View {
     
@@ -33,8 +34,8 @@ struct NewSubscriptionView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
+        ZStack(alignment: .top) {
+            NavigationStack {
                 Form {
                     Section {
                         TextField("Name", text: $newSubsriptionProviderName)
@@ -43,9 +44,9 @@ struct NewSubscriptionView: View {
                     }
                     Section {
                         TextField("$0.00", value: $price, formatter: formater)
-                        #if os(iOS)
+                             #if os(iOS)
                             .keyboardType(.decimalPad)
-                        #endif
+                             #endif
                     } header: {
                         Text("$ Subscription Price")
                     }
@@ -65,7 +66,7 @@ struct NewSubscriptionView: View {
                             Toggle("Notification", isOn: $setNotification)
                         }
                     } footer: {
-                        Text("Notification reminder on the day of subscription should be billed")
+                        Text("Notification on the day of subscription should be billed")
                     }
                     Section {
                         TextField("youtube.com", text: $imageUrl)
@@ -81,35 +82,38 @@ struct NewSubscriptionView: View {
                         }
                     }
                 }
-                if showSuccessView {
-                    SuccessView(title: "\(newSubsriptionProviderName) added to your subsription's.", message: "", showSelf: $showSuccessView)
-                }
-            }
-            .navigationTitle("New Subscription")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        addSubscription()
-                    } label: {
-                        Text("Save")
-                            .fontWeight(.medium)
+                .navigationTitle("New Subscription")
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            addSubscription()
+                        } label: {
+                            Text("Save")
+                                .fontWeight(.medium)
+                        }
+                        .disabled(saveDisabled())
                     }
-                    .disabled(saveDisabled())
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
+                    }
                 }
-                ToolbarItem(placement: .cancellationAction) {
-                    Button {
+                .onChange(of: showSuccessView, perform: { newValue in
+                    if newValue == false {
+                        addedNewSubscription = true
                         dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
                     }
-                }
+                })
             }
-            .onChange(of: showSuccessView, perform: { newValue in
-                if newValue == false {
-                    addedNewSubscription = true
-                    dismiss()
-                }
-            })
+            DynamicIslandSuccessView(
+                providerName: $newSubsriptionProviderName,
+                providerPrice: $price,
+                showSelf: $showSuccessView
+            )
+            .ignoresSafeArea()
         }
     }
     
@@ -133,7 +137,6 @@ struct NewSubscriptionView: View {
         newSub.imageUrl = imageUrl
         newSub.movedToHistory = false
         newSub.dateMovedToHistory = Date()
-        print("sub object id \(newSub.objectID)")
         if subscriptionModel == .yearly {
             newSub.type = 0
         } else {
@@ -142,15 +145,15 @@ struct NewSubscriptionView: View {
         do {
             try moc.save()
             if setNotification {
-               
+
                 let content = UNMutableNotificationContent()
                 content.title = newSubsriptionProviderName
                 content.subtitle = "\(appState.selectedCurrency) \(price)"
                 content.sound = UNNotificationSound.default
-                
-                var components = Calendar.current.dateComponents([.weekday, .day], from: startDate)
-                components.hour = 10
-                
+
+                var components = Calendar.current.dateComponents([.day], from: startDate)
+                components.hour = 8
+                components.minute = 0
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
 
                 let request = UNNotificationRequest(identifier: newSub.id.uuidString, content: content, trigger: trigger)
@@ -169,5 +172,6 @@ struct NewSubscriptionView_Previews: PreviewProvider {
     static var previews: some View {
         NewSubscriptionView(addedNewSubscription: .constant(false))
             .environmentObject(DataController())
+            .environmentObject(AppState())
     }
 }
