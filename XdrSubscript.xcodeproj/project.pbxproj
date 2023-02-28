@@ -15,7 +15,7 @@
 		C02385D92927BBED007F9A79 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385D82927BBED007F9A79 /* SplashView.swift */; };
 		C02385DB2927BE42007F9A79 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385DA2927BE42007F9A79 /* MainTabView.swift */; };
 		C02385E32927CD48007F9A79 /* SubscriptionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E22927CD48007F9A79 /* SubscriptionDetailsView.swift */; };
-		C02385E52927E2B4007F9A79 /* SubscriptionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E42927E2B4007F9A79 /* SubscriptionListView.swift */; };
+		C02385E52927E2B4007F9A79 /* HomeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E42927E2B4007F9A79 /* HomeListView.swift */; };
 		C02385E72927E346007F9A79 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E62927E346007F9A79 /* InfoView.swift */; };
 		C02385E92927E424007F9A79 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385E82927E424007F9A79 /* SettingsView.swift */; };
 		C02385EB2927EA53007F9A79 /* SubscriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02385EA2927EA53007F9A79 /* SubscriptionModel.swift */; };
@@ -97,7 +97,7 @@
 		C02385D82927BBED007F9A79 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		C02385DA2927BE42007F9A79 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		C02385E22927CD48007F9A79 /* SubscriptionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionDetailsView.swift; sourceTree = "<group>"; };
-		C02385E42927E2B4007F9A79 /* SubscriptionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionListView.swift; sourceTree = "<group>"; };
+		C02385E42927E2B4007F9A79 /* HomeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListView.swift; sourceTree = "<group>"; };
 		C02385E62927E346007F9A79 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		C02385E82927E424007F9A79 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C02385EA2927EA53007F9A79 /* SubscriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionModel.swift; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 			children = (
 				C02385D82927BBED007F9A79 /* SplashView.swift */,
 				C02385DA2927BE42007F9A79 /* MainTabView.swift */,
-				C02385E42927E2B4007F9A79 /* SubscriptionListView.swift */,
+				C02385E42927E2B4007F9A79 /* HomeListView.swift */,
 				C023860A292B031A007F9A79 /* NewSubscriptionView.swift */,
 				C05B216C292E45650086C8FA /* SpinnerView.swift */,
 				C02385E22927CD48007F9A79 /* SubscriptionDetailsView.swift */,
@@ -448,7 +448,7 @@
 				C02385E72927E346007F9A79 /* InfoView.swift in Sources */,
 				C00217A6298033C400ECFBA6 /* DataController.swift in Sources */,
 				C05B216F292E565D0086C8FA /* EmptyView.swift in Sources */,
-				C02385E52927E2B4007F9A79 /* SubscriptionListView.swift in Sources */,
+				C02385E52927E2B4007F9A79 /* HomeListView.swift in Sources */,
 				C02385CB2927BB76007F9A79 /* XdrSubscriptApp.swift in Sources */,
 				C00217A9298035C400ECFBA6 /* SubscriptionXdr.xcdatamodeld in Sources */,
 				C02385E92927E424007F9A79 /* SettingsView.swift in Sources */,

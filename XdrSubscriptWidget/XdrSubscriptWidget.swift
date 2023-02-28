@@ -70,7 +70,7 @@ struct XdrSubscriptRecentWidget: Widget {
 struct XdrSubscriptWidgetEntryView : View {
     
     var entry: Provider.Entry
-    var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? "USD"
+    var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? (Locale.current.currencySymbol ?? "USD")
     
     var body: some View {
         ZStack {
@@ -177,7 +177,7 @@ extension XdrSubscriptWidgetEntryView {
 struct RecentSubscriptionWidgetView: View {
     
     var entry: Provider.Entry
-    var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? "USD"
+    var selectedCurrency = UserDefaults(suiteName: .accessGroup)?.value(forKey: "selectedCurrency") as? String ?? (Locale.current.currencySymbol ?? "USD")
     
     var body: some View {
        // GeometryReader { geo in

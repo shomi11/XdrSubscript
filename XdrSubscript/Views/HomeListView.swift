@@ -11,7 +11,7 @@ import CloudKit
 import CoreSpotlight
 import WidgetKit
 
-struct SubscriptionListView: View {
+struct HomeListView: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
@@ -422,7 +422,7 @@ struct SubscriptionListView: View {
 struct SubscriptionListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            SubscriptionListView()
+            HomeListView()
                 .environmentObject(AppState())
                 .environmentObject(DataController())
         }

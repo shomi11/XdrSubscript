@@ -41,7 +41,7 @@ struct SubscriptionListiPadOS: View {
         } detail: {
             switch selectedNav {
             case .Subscription:
-                SubscriptionListView()
+                HomeListView()
             case .Info:
                 InfoView()
             case .History:

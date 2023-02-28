@@ -12,40 +12,36 @@ struct EmptyListView: View {
     @Binding var showNewSubscriptionView: Bool
     
     var body: some View {
-        VStack(alignment: .center, spacing: 16) {
-            Image(systemName: "hand.tap")
+        VStack(alignment: .center, spacing: 48) {
+            Image(systemName: "list.dash")
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: 100)
                 .foregroundColor(.secondary)
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Your subscriptions are currently empty.")
+            VStack(alignment: .center, spacing: 8) {
+                Text("Your subscription list is currently empty.")
                     .font(.title3)
                     .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
                 Text("Let's get started with one.")
                     .foregroundColor(.primary.opacity(0.7))
                     .fontWeight(.medium)
             }
+            .multilineTextAlignment(.center)
             Button {
                 showNewSubscriptionView.toggle()
             } label: {
                 HStack(alignment: .center, spacing: 8) {
                     Text("Add Subcription")
-                        .fontWeight(.medium)
-                    Image("logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: 20)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    Image(systemName: "plus")
                 }
+                .bold()
                 .padding(.vertical, 6)
                 .padding(.horizontal, 24)
             }
             .tint(.indigo)
             .buttonStyle(.bordered)
         }
-        .padding(32)
+        .padding(16)
     }
 }
 

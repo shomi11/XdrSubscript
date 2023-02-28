@@ -14,7 +14,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            SubscriptionListView()
+            HomeListView()
                 .tabItem {
                     Label("Subscriptions", systemImage: "list.dash")
                 }

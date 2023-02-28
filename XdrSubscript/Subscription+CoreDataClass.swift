@@ -11,7 +11,6 @@ import CoreData
 
 @objc(Subscription)
 public class Subscription: NSManagedObject {
-
     
     var priceTxt: String {
         let simbol = Locale.current.currencySymbol ?? "$"

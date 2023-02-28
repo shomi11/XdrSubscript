@@ -26,6 +26,8 @@ extension Subscription {
     @NSManaged public var imageUrl: String
     @NSManaged public var movedToHistory: Bool
     @NSManaged public var dateMovedToHistory: Date
+    @NSManaged public var trialActivated: Bool
+    @NSManaged public var trialEndDate: Date
 
 }
 

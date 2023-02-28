@@ -17,6 +17,8 @@ struct NewSubscriptionView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var newSubsriptionProviderName: String = ""
     @State private var startDate: Date = Date()
+    @State private var trialPeriodEnds: Date = Date()
+    @State private var isTrialPeriod: Bool = false
     @State private var price: Double = 0.00
     @State private var subscriptionModel: SubscriptionType = .monthly
     @State private var showSuccessView = false
@@ -42,6 +44,18 @@ struct NewSubscriptionView: View {
                     } header: {
                         Text("Subscription Provider")
                     }
+                    
+                    Section {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Toggle("Trial period", isOn: $isTrialPeriod)
+                            if isTrialPeriod {
+                                DatePicker("Trial end date", selection: $trialPeriodEnds, displayedComponents: .date)
+                            }
+                        }
+                    } footer: {
+                        Text("If you activate trial period, app will notify you day before trial expired.")
+                    }
+                    
                     Section {
                         TextField("$0.00", value: $price, formatter: formater)
                              #if os(iOS)
@@ -137,6 +151,10 @@ struct NewSubscriptionView: View {
         newSub.imageUrl = imageUrl
         newSub.movedToHistory = false
         newSub.dateMovedToHistory = Date()
+        if isTrialPeriod {
+            newSub.trialActivated = true
+            newSub.trialEndDate = trialPeriodEnds
+        }
         if subscriptionModel == .yearly {
             newSub.type = 0
         } else {
@@ -160,6 +178,21 @@ struct NewSubscriptionView: View {
 
                 UNUserNotificationCenter.current().add(request)
             }
+           
+            if isTrialPeriod {
+                let content = UNMutableNotificationContent()
+                content.title = newSubsriptionProviderName
+                content.subtitle = "Trial period end tommorow"
+                content.sound = UNNotificationSound.default
+                var components = Calendar.current.dateComponents([.month, .year], from: trialPeriodEnds)
+                components.day = trialPeriodEnds.day - 1
+                components.hour = 8
+                components.minute = 0
+                let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request)
+            }
+            
             showSuccessView = true
             appState.addSubscriptionToSpotlight(newSub)
         } catch {

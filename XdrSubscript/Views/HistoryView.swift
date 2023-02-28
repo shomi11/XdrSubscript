@@ -83,16 +83,16 @@ struct HistoryView: View {
                         Image(systemName: "calendar.badge.clock")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 120, height: 120, alignment: .center)
+                            .frame(maxWidth: 100)
+                            .foregroundColor(.secondary)
                         Text("Nothing in history yet.")
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .multilineTextAlignment(.center)
                         Text("You can move your subscriptions to history from subscription details screen.")
-                            .font(.body14)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.primary.opacity(0.7))
                             .fontWeight(.medium)
                     }
+                    .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 }
             }
