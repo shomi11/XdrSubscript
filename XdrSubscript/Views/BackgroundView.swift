@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct BackgroundView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    @State private var tag: Int = 0
         
     var body: some View {
         #if os(iOS)
@@ -17,9 +20,13 @@ struct BackgroundView: View {
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
+                .tag(tag)
             Rectangle()
                 .fill(Color.lightLinear1.opacity(0.2))
                 .background(.ultraThinMaterial)
+        }
+        .onChange(of: colorScheme) { newValue in
+            tag += 1
         }
         #else
         ZStack {
