@@ -53,4 +53,13 @@ public class Subscription: NSManagedObject {
         return total
     }
     
+    var trialPeriodLeftDays: String {
+        if trialActivated {
+            let dayLeft = Calendar.current.numberOf24DaysBetween(.now, and: trialEndDate)
+            return "subcription trial end in \(dayLeft - 1) day(s)"
+        } else {
+            return ""
+        }
+    }
+    
 }

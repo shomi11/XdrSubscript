@@ -37,7 +37,7 @@ struct XdrSubscriptApp: App {
             switch newValue {
             case .background:
                 print("background")
-               // scheduleAppRefresh()
+                try? dataController.container.viewContext.save()
             case .inactive:
                 print("inactive")
             case .active:

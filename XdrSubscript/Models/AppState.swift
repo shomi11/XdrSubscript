@@ -51,6 +51,17 @@ class AppState: ObservableObject {
         return daysLeftSubs.sorted(by: {$0.daysLeft < $1.daysLeft})
     }
     
+    func removeTrialPeriod(completion: @escaping() -> Void) async {
+        if !subscriptions.isEmpty {
+            for i in 0..<subscriptions.count {
+                if subscriptions[i].trialActivated {
+                    if Date() >= subscriptions[i].trialEndDate {
+                        subscriptions[i].trialActivated = false
+                    }
+                }
+            }
+        }
+    }
     
     var totalSubscriptionsPriceMonthly: Double {
         return subscriptions.filter({$0.movedToHistory == false}).filter({$0.model == .monthly}).reduce(0) {  $0 + $1.price }

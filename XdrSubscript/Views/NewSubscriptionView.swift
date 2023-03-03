@@ -92,6 +92,8 @@ struct NewSubscriptionView: View {
                                 Link("Clearbit", destination: URL(string: "https://clearbit.com")!)
                                     .foregroundColor(.blue)
                                     .underline()
+                                    .fontWeight(.medium)
+                                    .font(.body14)
                             }
                         }
                     }
@@ -182,7 +184,7 @@ struct NewSubscriptionView: View {
             if isTrialPeriod {
                 let content = UNMutableNotificationContent()
                 content.title = newSubsriptionProviderName
-                content.subtitle = "Trial period end tommorow"
+                content.subtitle = "Trial period end tommorow."
                 content.sound = UNNotificationSound.default
                 var components = Calendar.current.dateComponents([.month, .year], from: trialPeriodEnds)
                 components.day = trialPeriodEnds.day - 1

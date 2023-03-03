@@ -124,6 +124,9 @@ struct HomeListView: View {
                     addedNewSubscription = false
                     Task {
                         await getSubscriptions()
+                        await appState.removeTrialPeriod(completion: {
+                           try? moc.save()
+                        })
                     }
                 }
             }, content: {
@@ -400,6 +403,12 @@ struct HomeListView: View {
                         .fontWeight(.medium)
                         .font(.body14)
                         .foregroundColor(.primary.opacity(0.7))
+                }
+                if sub.trialActivated {
+                    Text(sub.trialPeriodLeftDays)
+                        .foregroundColor(.secondary)
+                        .font(.body14)
+                        .fontWeight(.medium)
                 }
                 HStack(alignment: .center, spacing: 2) {
                     Text(sub.price.formatted(.currency(code: appState.selectedCurrency)))
