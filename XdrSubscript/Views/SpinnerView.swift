@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SpinnerView: View {
     
-    @State var animate: Bool = false
+    @State var animate: Bool = true
     
     var body: some View {
         VStack {
@@ -20,6 +20,7 @@ struct SpinnerView: View {
                 Image("logo")
                     .resizable()
                     .scaledToFit()
+                    .clipShape(Circle())
                     .frame(width: 100, height: 100, alignment: .center)
                     .rotationEffect(.init(degrees: animate ? 360 : 0))
                     .animation(.linear(duration: 0.7).repeatForever(autoreverses: false), value: animate)

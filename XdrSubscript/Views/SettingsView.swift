@@ -36,8 +36,42 @@ struct SettingsView: View {
                 currencySettings
                 maximumSpendingPerMonthSettings
                 userNameView
+                rateTheAppView
+                contactDeveloperView
             }
             .navigationTitle("Settings")
+        }
+    }
+    
+    private var contactDeveloperView: some View {
+        Section {
+            Link(destination: URL(string: "https://twitter.com/m_11070")!) {
+                HStack(alignment: .center, spacing: 8) {
+                    Image("twitter")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 30)
+                        .foregroundColor(.blue)
+                    Text("twitter")
+                }
+            }
+        } footer: {
+            Text("For any issues or feature wishes you can contact me.")
+        }
+    }
+    
+    private var rateTheAppView: some View {
+        Section {
+            Link(destination: URL(string: "www.google.com")!) {
+                HStack(alignment: .center, spacing: 8) {
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 30)
+                        .foregroundColor(.red)
+                    Text("Rate the app")
+                }
+            }
         }
     }
     

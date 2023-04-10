@@ -19,8 +19,6 @@ struct SplashView: View {
     @State private var showMain: Bool = false
     @State private var hasTimeElapsed = false
     
-    let keys = ["dateCreated, id, imageUrl, name, notificationOn, price, startDate, type"]
-    
     let timer = Timer()
         
     var body: some View {
