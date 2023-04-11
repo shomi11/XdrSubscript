@@ -23,6 +23,8 @@ struct HomeListView: View {
     @State private var showSpendingDetailsFullCard: Bool = false
     @State private var selectedSub: Subscription?
     @State private var path: [Subscription] = []
+    @State private var showAlert = false
+    @State private var alertMessage: String?
     
     @State var orderedBy = UserDefaults.standard.value(forKey: "sorted") as? SortedBy.RawValue ?? SortedBy.newest.rawValue
     
@@ -77,6 +79,17 @@ struct HomeListView: View {
                         .background {
                             BackgroundView()
                         }
+                    }
+                }
+                .onAppear {
+                   checkICloudStatus()
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("iCloud message"), message: Text(alertMessage ?? ""), dismissButton: .cancel { alertMessage = nil } )
+                }
+                .onChange(of: alertMessage) { newValue in
+                    if let _ = newValue {
+                        showAlert = true
                     }
                 }
             }
@@ -424,6 +437,30 @@ struct HomeListView: View {
         .padding()
         .background(Color.systemBackgroundColor.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+    
+    private func checkICloudStatus() {
+        let container = CKContainer.default()
+        container.accountStatus { (accountStatus, error) in
+            if let _ = error {
+                alertMessage = "Error fetching iCloud status, please try again."
+            } else {
+                switch accountStatus {
+                case .available:
+                    alertMessage = nil
+                case .restricted:
+                    alertMessage = "Your iCloud status is restricted."
+                case .noAccount:
+                    alertMessage = "No iCloud account is logged in, please sign in to iCloud to use app on all your devices."
+                case .couldNotDetermine:
+                    alertMessage = "Could not determine iCloud account status"
+                case .temporarilyUnavailable:
+                    alertMessage = "iCloud is temporarily unavailable, please try again later."
+                @unknown default:
+                    print("Unknown iCloud account status")
+                }
+            }
+        }
     }
 
 }
