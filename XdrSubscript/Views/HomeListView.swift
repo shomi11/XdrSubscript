@@ -17,6 +17,7 @@ struct HomeListView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject private var appState: AppState
+    @ObservedObject private var cloudKitManager: CloudKitManager = CloudKitManager()
     @State private var showNewSubscriptionView: Bool = false
     @State private var searchTxt: String = ""
     @State private var addedNewSubscription = false
@@ -159,6 +160,11 @@ struct HomeListView: View {
                 let status = await accountStatus()
                 if status == .available {
                     await getSubscriptions()
+                    if appState.subscriptions.isEmpty {
+                        
+                    }
+                } else {
+                    appState.loadingState = .none
                 }
             }
         }
@@ -448,6 +454,7 @@ struct HomeListView: View {
                 switch accountStatus {
                 case .available:
                     alertMessage = nil
+                    cloudKitManager.fetchTasks()
                 case .restricted:
                     alertMessage = "Your iCloud status is restricted."
                 case .noAccount:

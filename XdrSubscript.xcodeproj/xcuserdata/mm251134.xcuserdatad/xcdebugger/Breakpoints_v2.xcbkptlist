@@ -3,4 +3,70 @@
    uuid = "3EFB1D81-8521-4F41-895F-D853E4F9D8D8"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B511555B-8E38-4F52-97D6-66BD71B127E8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XdrSubscript/Models/CloudKitManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "fetchTasks()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7AE99181-173B-418C-9ABB-2BA6F3263F25"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XdrSubscript/Models/CloudKitManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "fetchTasks()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7AE99181-173B-418C-9ABB-2BA6F3263F25 - ced0cc9e39f77af5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Result&lt;(matchResults: Swift.Array&lt;(__C.CKRecordID, Swift.Result&lt;__C.CKRecord, Swift.Error&gt;)&gt;, queryCursor: Swift.Optional&lt;__C.CKQueryCursor&gt;), Swift.Error&gt;) -&gt; () in XdrSubscript.CloudKitManager.fetchTasks() -&gt; ()"
+                  moduleName = "XdrSubscript"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mm251134/Desktop/My-Apps/XdrSubscript/XdrSubscript/Models/CloudKitManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "507">
+               </Location>
+               <Location
+                  uuid = "7AE99181-173B-418C-9ABB-2BA6F3263F25 - ced0cc9e39f77af5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Result&lt;(matchResults: Swift.Array&lt;(__C.CKRecordID, Swift.Result&lt;__C.CKRecord, Swift.Error&gt;)&gt;, queryCursor: Swift.Optional&lt;__C.CKQueryCursor&gt;), Swift.Error&gt;) -&gt; () in XdrSubscript.CloudKitManager.fetchTasks() -&gt; ()"
+                  moduleName = "XdrSubscript"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mm251134/Desktop/My-Apps/XdrSubscript/XdrSubscript/Models/CloudKitManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "565">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -38,6 +38,7 @@
 		C065A5F9297EDC4400D7FC9D /* FontExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C065A5F8297EDC4400D7FC9D /* FontExt.swift */; };
 		C0763E862983D85D00529340 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0763E852983D85D00529340 /* Color.xcassets */; };
 		C088A67C298B3D190055B3D9 /* ImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C088A67B298B3D190055B3D9 /* ImageExt.swift */; };
+		C09707E329E565D900ED9EF0 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09707E229E565D900ED9EF0 /* CloudKitManager.swift */; };
 		C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */; };
 		C0B48BC0298041A3004F2B14 /* Subscription+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */; };
 		C0DBF375299B8ED1003F6454 /* SubscriptionListiPadOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DBF374299B8ED1003F6454 /* SubscriptionListiPadOS.swift */; };
@@ -123,6 +124,7 @@
 		C065A5F8297EDC4400D7FC9D /* FontExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExt.swift; sourceTree = "<group>"; };
 		C0763E852983D85D00529340 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		C088A67B298B3D190055B3D9 /* ImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExt.swift; sourceTree = "<group>"; };
+		C09707E229E565D900ED9EF0 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		C0B48BBD298041A3004F2B14 /* Subscription+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataClass.swift"; path = "XdrSubscript/Subscription+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C0B48BBE298041A3004F2B14 /* Subscription+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Subscription+CoreDataProperties.swift"; path = "XdrSubscript/Subscription+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C0DBF374299B8ED1003F6454 /* SubscriptionListiPadOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionListiPadOS.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				C0291484292F84F700972886 /* SortedBy.swift */,
 				C00217A5298033C400ECFBA6 /* DataController.swift */,
 				C054F542298AD1DD00122A16 /* LoadingState.swift */,
+				C09707E229E565D900ED9EF0 /* CloudKitManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				C05B2171292E611C0086C8FA /* SuccessView.swift in Sources */,
 				C054F543298AD1DD00122A16 /* LoadingState.swift in Sources */,
 				C029147F292ED44400972886 /* AppState.swift in Sources */,
+				C09707E329E565D900ED9EF0 /* CloudKitManager.swift in Sources */,
 				C02385EB2927EA53007F9A79 /* SubscriptionModel.swift in Sources */,
 				C0B48BBF298041A3004F2B14 /* Subscription+CoreDataClass.swift in Sources */,
 				C0F5D245298C18E70053E0AB /* StringExt.swift in Sources */,
@@ -641,6 +645,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = XdrSubscript/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Subscription XDR";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -676,6 +682,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = XdrSubscript/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Subscription XDR";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
