@@ -159,9 +159,19 @@ struct HomeListView: View {
             .task {
                 let status = await accountStatus()
                 if status == .available {
+                    appState.objectWillChange.send()
                     await getSubscriptions()
+                    await appState.removeTrialPeriod(completion: {
+                       try? moc.save()
+                    })
                     if appState.subscriptions.isEmpty {
-                        
+                        let subscriptions = await cloudKitManager.fetchTasks()
+                        if !subscriptions.isEmpty {
+                            await getSubscriptions()
+                            await appState.removeTrialPeriod(completion: {
+                               try? moc.save()
+                            })    
+                        }
                     }
                 } else {
                     appState.loadingState = .none
@@ -454,7 +464,6 @@ struct HomeListView: View {
                 switch accountStatus {
                 case .available:
                     alertMessage = nil
-                    cloudKitManager.fetchTasks()
                 case .restricted:
                     alertMessage = "Your iCloud status is restricted."
                 case .noAccount:
